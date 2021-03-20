@@ -1,4 +1,5 @@
 import multiprocessing as mp
+import os
 from abc import ABC
 
 from realm.entities import RealmContext
@@ -15,6 +16,7 @@ class RealmCommand(BaseCommand[T], ABC):
 
         self.pool = mp.Pool(self._params.get('parallelism', 1))
         self.__filter_projects()
+        os.environ['REALM_ROOT'] = self.ctx.config.root_dir
 
     def __filter_projects(self):
         since = self._params.get('since')

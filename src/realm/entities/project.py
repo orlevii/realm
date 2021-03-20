@@ -38,6 +38,7 @@ class Project:
         full_cmd = f'cd "{self.source_dir}" && {cmd}'
         if os.getenv('VIRTUAL_ENV'):
             full_cmd = f'source deactivate && {full_cmd}'
+        print(full_cmd)
 
         status = os.system(full_cmd)
         if status != 0:

@@ -8,17 +8,23 @@ class TaskCommand(RealmCommand[dict]):
         click.Argument(['task_name'], type=click.STRING)
     ]
 
+    def _filter_projects(self):
+        super()._filter_projects()
+        task_name = self.params['task_name']
+        self.ctx.projects = [p for p
+                             in self.ctx.projects
+                             if p.has_task(task_name)]
+
     def run(self):
         task_name = self.params['task_name']
         failed_projects = []
         for project in self.ctx.projects:
-            if project.has_task(task_name):
-                click.echo(f'Running task {task_name} for: {project.name}')
-                try:
-                    project.execute_cmd(f'poetry run poe {task_name}')
-                except RuntimeError as e:
-                    click.echo(e)
-                    failed_projects.append(project)
+            click.echo(f'Running task {task_name} for: {project.name}')
+            try:
+                project.execute_cmd(f'poetry run poe {task_name}')
+            except RuntimeError as e:
+                click.echo(e)
+                failed_projects.append(project)
 
         if any(failed_projects):
             names = [p.name for p in failed_projects]

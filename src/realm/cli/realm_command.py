@@ -15,10 +15,10 @@ class RealmCommand(BaseCommand[T], ABC):
         self.ctx = ctx
 
         self.pool = mp.Pool(self._params.get('parallelism', 1))
-        self.__filter_projects()
+        self._filter_projects()
         os.environ['REALM_ROOT'] = self.ctx.config.root_dir
 
-    def __filter_projects(self):
+    def _filter_projects(self):
         since = self._params.get('since')
         include_all_when_empty = True
         if since:

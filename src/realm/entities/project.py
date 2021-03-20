@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 
 import toml
+from realm.utils.child_process import ChildProcess
 
 PYPROJECT_FILE = 'pyproject.toml'
 
@@ -34,16 +35,29 @@ class Project:
         tasks = self.pyproject['tool'].get('poe', {}).get('tasks', {})
         return task_name in tasks
 
-    def execute_cmd(self, cmd):
-        full_cmd = f'cd "{self.source_dir}" && {cmd}'
-        if os.getenv('VIRTUAL_ENV'):
-            full_cmd = f'source deactivate && {full_cmd}'
-        print(full_cmd)
+    def execute_cmd(self, cmd, **kwargs):
+        full_cmd = cmd
+        env = dict(os.environ)
+        current_venv = os.getenv('VIRTUAL_ENV', os.getenv('CONDA_PREFIX'))
+        if current_venv:
+            path_env = os.environ.get('PATH', '')
+            # Remove venv from path
+            env['PATH'] = ':'.join([e for e
+                                    in path_env.split(':')
+                                    if current_venv not in e])
 
-        status = os.system(full_cmd)
-        if status != 0:
-            raise RuntimeError(f'Failed running command: {cmd}. '
-                               f'project: {os.path.basename(self.source_dir)}')
+        try:
+            params = dict(stdout=None,
+                          stderr=None,
+                          shell=True,
+                          env=env,
+                          cwd=self.source_dir)
+            params.update(kwargs)
+            return ChildProcess.run(full_cmd,
+                                    **params)
+        except RuntimeError as e:
+            msg = f'{str(e)}; project: {os.path.basename(self.source_dir)}'
+            raise RuntimeError(msg)
 
     def __repr__(self):
         return self.package_name

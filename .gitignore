@@ -1,0 +1,10 @@
+.idea/
+*.pyc
+.DS_Store
+*.egg-info
+.coverage
+.python-version
+dist/
+venv/
+temp/
+tmp/

@@ -31,6 +31,8 @@ class TestCommands(unittest.TestCase):
         cmd = LsCommand(self.ctx)
         with captured_output() as (out, _):
             cmd.run()
+        output = out.getvalue().strip()
+        self.assertEqual(output, 'pgk@0.1.0')
 
     def test_task_install(self):
         install_cmd = InstallCommand(self.ctx)
@@ -38,6 +40,6 @@ class TestCommands(unittest.TestCase):
 
         self.assertEqual(len(task_cmd.ctx.projects), 1)
 
-        with captured_output() as (_, _):
+        with captured_output(stderr=False) as (out, _):
             install_cmd.run()
             task_cmd.run()

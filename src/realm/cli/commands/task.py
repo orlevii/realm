@@ -23,7 +23,7 @@ class TaskCommand(RealmCommand[dict]):
             try:
                 project.execute_cmd(f'poetry run poe {task_name}')
             except RuntimeError as e:
-                click.echo(e)
+                click.echo(e, err=True)
                 failed_projects.append(project)
 
         if any(failed_projects):

@@ -56,7 +56,7 @@ class Project:
             return ChildProcess.run(full_cmd,
                                     **params)
         except RuntimeError as e:
-            msg = f'{str(e)}; project: {os.path.basename(self.source_dir)}'
+            msg = f'{str(e)}\nproject: {os.path.basename(self.source_dir)}'
             raise RuntimeError(msg)
 
     def __repr__(self):

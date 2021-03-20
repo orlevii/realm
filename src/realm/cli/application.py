@@ -7,6 +7,7 @@ from typing import List
 import click
 from realm.entities import Config, Project, RealmContext
 
+from .commands.init import InitCommand
 from .commands.install import InstallCommand
 from .commands.ls import LsCommand
 from .commands.run import RunCommand
@@ -28,6 +29,7 @@ class Application:
                                      help='Includes only projects changed since the specified ref')
                     ])
 
+        grp.add_command(InitCommand)
         grp.add_command(LsCommand)
         grp.add_command(RunCommand)
         grp.add_command(InstallCommand)
@@ -59,7 +61,7 @@ class Application:
 
     @classmethod
     def get_projects(cls, cfg: Config) -> List[Project]:
-        tmp_candidates = [glob.glob(p) for p in cfg.projects]
+        tmp_candidates = [glob.glob(os.path.join(cfg.root_dir, p)) for p in cfg.projects]
         candidates = []
         for lst in tmp_candidates:
             for c in lst:

@@ -13,7 +13,7 @@ class RealmCommand(BaseCommand[T], ABC):
         # Just for the type annotation
         self.ctx = ctx
 
-        self.pool = mp.Pool(self._params['parallelism'])
+        self.pool = mp.Pool(self._params.get('parallelism', 1))
         self.__filter_projects()
 
     def __filter_projects(self):

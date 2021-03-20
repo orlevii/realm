@@ -18,10 +18,13 @@ class TaskCommand(RealmCommand[dict]):
     def run(self):
         task_name = self.params['task_name']
         failed_projects = []
+        std_outs = []
         for project in self.ctx.projects:
             click.echo(f'Running task {task_name} for: {project.name}')
             try:
-                project.execute_cmd(f'poetry run poe {task_name}')
+                out = project.execute_cmd(f'poetry run poe {task_name}')
+                if out:
+                    std_outs.append(out)
             except RuntimeError as e:
                 click.echo(e, err=True)
                 failed_projects.append(project)
@@ -30,3 +33,8 @@ class TaskCommand(RealmCommand[dict]):
             names = [p.name for p in failed_projects]
             formatted_names = ', '.join(names)
             raise RuntimeError(f'Task {task_name} failed for projects: {formatted_names}')
+
+        if any(std_outs):
+            # For stdout capturing
+            outs = '\n'.join(std_outs)
+            click.echo(outs)

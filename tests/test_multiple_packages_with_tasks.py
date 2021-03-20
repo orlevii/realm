@@ -43,3 +43,7 @@ class TestCommands(unittest.TestCase):
         with captured_output(stderr=False) as (out, _):
             install_cmd.run()
             task_cmd.run()
+
+        output = out.getvalue()
+        self.assertIn('Installing the current project: pgk', output)
+        self.assertIn('Poe => python -m unittest discover -s tests -v -p "test_*.py"', output)

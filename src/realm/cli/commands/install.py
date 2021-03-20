@@ -1,3 +1,4 @@
+import click
 from realm.cli.realm_command import RealmCommand
 
 
@@ -6,4 +7,7 @@ class InstallCommand(RealmCommand[dict]):
 
     def run(self):
         for project in self.ctx.projects:
-            project.execute_cmd('poetry install')
+            out = project.execute_cmd('poetry install')
+            if out:
+                # used only for tests :(
+                click.echo(out)

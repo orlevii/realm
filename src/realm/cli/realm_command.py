@@ -45,8 +45,8 @@ class RealmCommand(BaseCommand[T], ABC):
             f2 = f'tool.{field}'
             self.ctx.projects = [p for p
                                  in self.ctx.projects
-                                 if str(p.extract_field(f1)) == value
-                                 or str(p.extract_field(f2)) == value]
+                                 if str(p.extract_field(f1)) == value or
+                                 str(p.extract_field(f2)) == value]
 
         if include_all_when_empty:
             if not any(self.ctx.projects):

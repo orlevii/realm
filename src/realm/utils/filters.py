@@ -2,7 +2,7 @@ from ..entities.context import RealmContext
 from ..utils.child_process import ChildProcess
 
 
-def apply_since_filters(ctx: RealmContext, since, include_all_when_empty):
+def apply_since_filters(ctx: RealmContext, since):
     changed_projects = get_changed_projects(ctx, since)
     dependent = set()
     for proj in ctx.projects:
@@ -12,9 +12,6 @@ def apply_since_filters(ctx: RealmContext, since, include_all_when_empty):
 
     dependent = dependent.union(changed_projects)
 
-    if include_all_when_empty:
-        if not any(dependent):
-            dependent = ctx.all_projects
     ctx.projects = dependent
 
 

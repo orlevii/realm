@@ -32,7 +32,7 @@ class TestCommands(unittest.TestCase):
         with captured_output() as (out, _):
             cmd.run()
         output = out.getvalue().strip()
-        self.assertEqual(output, 'pgk@0.1.0')
+        self.assertEqual(output, 'pkg@0.1.0')
 
     def test_task_install(self):
         install_cmd = InstallCommand(self.ctx)
@@ -45,5 +45,5 @@ class TestCommands(unittest.TestCase):
             task_cmd.run()
 
         output = out.getvalue()
-        self.assertIn('Installing the current project: pgk', output)
+        self.assertIn('Installing the current project: pkg', output)
         self.assertIn('Poe => python -m unittest discover -s tests -v -p "test_*.py"', output)

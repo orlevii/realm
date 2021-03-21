@@ -33,6 +33,7 @@ jobs:
         run: |
           git fetch origin master
           git log -4
+          git diff origin/master
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:

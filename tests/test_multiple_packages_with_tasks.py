@@ -50,7 +50,7 @@ class TestCommands(unittest.TestCase):
         self.assertIn('Poe => python -m unittest discover -s tests -v -p "test_*.py"', output)
 
     def test_git_diff(self):
-        cmd = LsCommand(self.ctx, since='origin/HEAD')
+        cmd = LsCommand(self.ctx, since='origin/master')
         with captured_output() as (out, _):
             cmd.run()
         output = out.getvalue().strip()
@@ -62,7 +62,7 @@ class TestCommands(unittest.TestCase):
             with pkg_proj.source_dir.joinpath('pyproject.toml').open('a') as f:
                 print('', file=f)
 
-            cmd = LsCommand(self.ctx, since='origin/HEAD')
+            cmd = LsCommand(self.ctx, since='origin/master')
 
             with captured_output() as (out, _):
                 cmd.run()

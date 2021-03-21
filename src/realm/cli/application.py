@@ -21,6 +21,8 @@ class Application:
     @classmethod
     def create(cls):
         grp = Group(callback=cls.init_context,
+                    help_headers_color='yellow',
+                    help_options_color='blue',
                     params=cls.global_options())
 
         grp.add_command(InitCommand)

@@ -1,16 +1,20 @@
 from typing import Type
 
 import click
+import click_help_colors as chc
 
 from .base import BaseCommand
 
 
-class Group(click.Group):
+class Group(chc.HelpColorsMixin, click.Group):
     def add_command(self, cmd: Type[BaseCommand], name=None):
-        if not cmd.PARAMS:
-            cmd.PARAMS = []
-        cmd.PARAMS.extend(self.params)
-        super().add_command(cmd.to_command(),
+        created_cmd = cmd.to_command()
+        if not created_cmd.params:
+            created_cmd.params = []
+        created_cmd.params.extend(self.params)
+        created_cmd.help_headers_color = self.help_headers_color
+        created_cmd.help_options_color = self.help_options_color
+        super().add_command(created_cmd,
                             name=name)
 
     def add_group(self, grp: click.Group, name=None):

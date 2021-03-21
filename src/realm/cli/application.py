@@ -2,17 +2,20 @@ import glob
 import json
 import os
 import pathlib
+import sys
 from typing import List
 
 import click
 from realm.entities import Config, Project, RealmContext
+from realm.version import __version__
 
 from .commands.init import InitCommand
 from .commands.install import InstallCommand
 from .commands.ls import LsCommand
 from .commands.run import RunCommand
 from .commands.task import TaskCommand
-from .group import Group
+from .realm_click_types import RealmClickGroup
+from .core.params import GlobalOption
 
 CONFIG_FILE = 'realm.json'
 
@@ -20,10 +23,8 @@ CONFIG_FILE = 'realm.json'
 class Application:
     @classmethod
     def create(cls):
-        grp = Group(callback=cls.init_context,
-                    help_headers_color='yellow',
-                    help_options_color='blue',
-                    params=cls.global_options())
+        grp = RealmClickGroup(callback=cls.init_context,
+                              params=cls.global_options())
 
         grp.add_command(InitCommand)
         grp.add_command(LsCommand)
@@ -36,19 +37,31 @@ class Application:
     @classmethod
     def global_options(cls):
         return [
-            click.Option(['--parallelism', '-p'],
+            GlobalOption(['--version', '-V'],
+                         is_flag=True,
+                         callback=cls.print_version,
+                         help='Display realm version'),
+            GlobalOption(['--parallelism', '-p'],
                          type=click.INT,
                          default=1,
                          help='Sets the parallelism for the command (if supported)'),
-            click.Option(['--since'],
+            GlobalOption(['--since'],
                          help='Includes only projects changed since the specified ref'),
-            click.Option(['--scope'], type=click.STRING),
-            click.Option(['--ignore'], type=click.STRING),
-            click.Option(['--match'], type=click.STRING),
-            click.Option(['--all'],
+            GlobalOption(['--scope'], type=click.STRING),
+            GlobalOption(['--ignore'], type=click.STRING),
+            GlobalOption(['--match'], type=click.STRING),
+            GlobalOption(['--all'],
                          is_flag=True,
                          help='Include all projects if post-filter-projects list is empty')
         ]
+
+    @staticmethod
+    def print_version(ctx, value):
+        if value:
+            msg = 'Realm {}'.format(click.style(__version__, fg='yellow'))
+            click.echo(msg)
+
+            sys.exit(0)
 
     @staticmethod
     @click.pass_context

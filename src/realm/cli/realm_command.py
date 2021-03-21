@@ -5,11 +5,14 @@ from abc import ABC
 
 from realm.entities import RealmContext
 
-from .base import BaseCommand, T
+from .core.base_command import BaseCommand, T
+from .realm_click_types import RealmClickCommand
 from ..utils.filters import apply_since_filters
 
 
 class RealmCommand(BaseCommand[T], ABC):
+    CLICK_COMMAND_CLS = RealmClickCommand
+
     def __init__(self, ctx: RealmContext, **kwargs):
         super().__init__(ctx, **kwargs)
         # Just for the type annotation

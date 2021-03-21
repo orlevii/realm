@@ -30,7 +30,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Fetch master
-        run: git fetch origin HEAD
+        run: |
+          git fetch origin master
+          git log -4
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:

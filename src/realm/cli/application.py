@@ -14,8 +14,8 @@ from .commands.install import InstallCommand
 from .commands.ls import LsCommand
 from .commands.run import RunCommand
 from .commands.task import TaskCommand
-from .realm_click_types import RealmClickGroup
 from .core.params import GlobalOption
+from .realm_click_types import RealmClickGroup
 
 CONFIG_FILE = 'realm.json'
 
@@ -43,6 +43,7 @@ class Application:
                          help='Display realm version'),
             GlobalOption(['--parallelism', '-p'],
                          type=click.INT,
+                         show_default=True,
                          default=1,
                          help='Sets the parallelism for the command (if supported)'),
             GlobalOption(['--since'],

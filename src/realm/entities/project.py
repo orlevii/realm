@@ -54,6 +54,8 @@ class Project:
             env['PATH'] = ':'.join([e for e
                                     in path_env.split(':')
                                     if current_venv not in e])
+            env.pop('VIRTUAL_ENV', None)
+            env.pop('CONDA_PREFIX', None)
 
         try:
             params = dict(stdout=None,

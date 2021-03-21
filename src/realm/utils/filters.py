@@ -1,3 +1,5 @@
+import os
+
 from ..entities.context import RealmContext
 from ..utils.child_process import ChildProcess
 
@@ -17,6 +19,11 @@ def apply_since_filters(ctx: RealmContext, since):
 
 def get_changed_projects(ctx: RealmContext, since):
     changed_files = ChildProcess.run(f'git diff --name-only {since}')
+    git_root = ChildProcess.run('git rev-parse --show-toplevel')
+    git_root = git_root.strip() if git_root else ''
+
+    relative_realm_repo_path = ctx.config.root_dir[len(git_root):].lstrip(os.sep)
+
     changed_files = changed_files if changed_files else ''
     changed_files = [f for f in changed_files.split('\n') if f]
     ctx.projects.sort(key=lambda p: len(str(p.source_dir)), reverse=True)
@@ -24,7 +31,9 @@ def get_changed_projects(ctx: RealmContext, since):
 
     for file in changed_files:
         for proj in ctx.projects:
-            if file.startswith(proj.relative_path):
+            project_path = os.path.join(relative_realm_repo_path,
+                                        proj.relative_path)
+            if file.startswith(project_path):
                 changed.add(proj)
                 continue
     return changed

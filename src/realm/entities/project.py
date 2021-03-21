@@ -24,6 +24,15 @@ class Project:
     def package_name(self) -> str:
         return self.pyproject['tool']['poetry']['name']
 
+    def extract_field(self, toml_path: str):
+        parts = toml_path.split('.')
+        current = self.pyproject
+        for p in parts:
+            current = current.get(p, {})
+        if bool(current):
+            return current
+        return None
+
     @property
     def dependencies(self):
         all_dependencies = dict(self.pyproject['tool']['poetry']['dev-dependencies'])

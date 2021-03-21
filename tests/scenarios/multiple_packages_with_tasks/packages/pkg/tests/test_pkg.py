@@ -1,6 +1,6 @@
 import unittest
 
-from pgk import __version__
+from pkg import __version__
 
 
 class PkgTest(unittest.TestCase):

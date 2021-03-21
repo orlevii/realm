@@ -21,13 +21,7 @@ class Application:
     @classmethod
     def create(cls):
         grp = Group(callback=cls.init_context,
-                    params=[
-                        click.Option(['--parallelism', '-p'],
-                                     type=click.INT,
-                                     default=1),
-                        click.Option(['--since'],
-                                     help='Includes only projects changed since the specified ref')
-                    ])
+                    params=cls.global_options())
 
         grp.add_command(InitCommand)
         grp.add_command(LsCommand)
@@ -36,6 +30,23 @@ class Application:
         grp.add_command(TaskCommand)
 
         return grp
+
+    @classmethod
+    def global_options(cls):
+        return [
+            click.Option(['--parallelism', '-p'],
+                         type=click.INT,
+                         default=1,
+                         help='Sets the parallelism for the command (if supported)'),
+            click.Option(['--since'],
+                         help='Includes only projects changed since the specified ref'),
+            click.Option(['--scope'], type=click.STRING),
+            click.Option(['--ignore'], type=click.STRING),
+            click.Option(['--match'], type=click.STRING),
+            click.Option(['--all'],
+                         is_flag=True,
+                         help='Include all projects if post-filter-projects list is empty')
+        ]
 
     @staticmethod
     @click.pass_context

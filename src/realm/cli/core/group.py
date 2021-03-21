@@ -2,15 +2,16 @@ from typing import Type
 
 import click
 
-from .base import BaseCommand
+from .base_command import BaseCommand
 
 
 class Group(click.Group):
     def add_command(self, cmd: Type[BaseCommand], name=None):
-        if not cmd.PARAMS:
-            cmd.PARAMS = []
-        cmd.PARAMS.extend(self.params)
-        super().add_command(cmd.to_command(),
+        created_cmd = cmd.to_command()
+        if not created_cmd.params:
+            created_cmd.params = []
+        created_cmd.params.extend(self.params)
+        super().add_command(created_cmd,
                             name=name)
 
     def add_group(self, grp: click.Group, name=None):

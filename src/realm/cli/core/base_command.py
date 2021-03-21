@@ -21,6 +21,7 @@ def _strip_indent(s):
 
 
 class BaseCommand(Generic[T]):
+    CLICK_COMMAND_CLS = click.Command
     NAME: str = ''
     HELP_MESSAGE: Optional[str] = None
     PARAMS: List[click.Parameter] = []
@@ -41,11 +42,11 @@ class BaseCommand(Generic[T]):
             if code is not None:
                 sys.exit(code)
 
-        return click.Command(name=cls.NAME,
-                             params=cls.PARAMS,
-                             callback=click.pass_context(callback_fn),
-                             help=_strip_indent(cls.HELP_MESSAGE),
-                             deprecated=cls.DEPRECATED)
+        return cls.CLICK_COMMAND_CLS(name=cls.NAME,
+                                     params=cls.PARAMS,
+                                     callback=click.pass_context(callback_fn),
+                                     help=_strip_indent(cls.HELP_MESSAGE),
+                                     deprecated=cls.DEPRECATED)
 
     @abc.abstractmethod
     def run(self):  # type: Optional[int]

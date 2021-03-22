@@ -1,4 +1,5 @@
 import os
+from typing import List
 
 from ..entities.context import RealmContext
 from ..utils.child_process import ChildProcess
@@ -24,8 +25,8 @@ def get_changed_projects(ctx: RealmContext, since):
 
     relative_realm_repo_path = ctx.config.root_dir[len(git_root):].lstrip(os.sep)
 
-    changed_files = changed_files if changed_files else ''
-    changed_files = [f for f in changed_files.split('\n') if f]
+    changed_files = parse_changed_files(changed_files)
+
     ctx.projects.sort(key=lambda p: len(str(p.source_dir)), reverse=True)
     changed = set()
 
@@ -43,3 +44,16 @@ def get_changed_projects(ctx: RealmContext, since):
                 changed.add(proj)
                 continue
     return changed
+
+
+def parse_changed_files(changed_files: str) -> List[str]:
+    def handle_windows(p: str):
+        return p.replace('/', os.sep)
+
+    changed_files = changed_files if changed_files else ''
+    return [
+        handle_windows(f.strip())
+        for f
+        in changed_files.split('\n')
+        if f
+    ]

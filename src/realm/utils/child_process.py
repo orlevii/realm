@@ -17,7 +17,7 @@ class ChildProcess:
             params.update(cls.CAPTURE_PARAMS)
 
         if not kwargs.get('shell'):
-            command = shlex.split(command)
+            command = shlex.split(command, posix=False)
         p = subprocess.Popen(command,
                              **params)
         out, err = p.communicate()

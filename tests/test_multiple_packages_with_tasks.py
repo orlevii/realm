@@ -59,7 +59,6 @@ class TestCommands(unittest.TestCase):
     def test_git_diff_with_change(self):
         pkg_proj = [p for p in self.ctx.projects if p.name == 'pkg'][0]
         try:
-            print('source_dir:', pkg_proj.source_dir)
             with pkg_proj.source_dir.joinpath('pyproject.toml').open('a') as f:
                 print('', file=f)
 

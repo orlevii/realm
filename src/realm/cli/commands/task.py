@@ -4,6 +4,9 @@ from realm.cli.realm_command import RealmCommand
 
 class TaskCommand(RealmCommand[dict]):
     NAME = 'task'
+    HELP_MESSAGE = """
+    Runs a poe task on all projects containing this task
+    """
     PARAMS = [
         click.Argument(['task_name'], type=click.STRING)
     ]

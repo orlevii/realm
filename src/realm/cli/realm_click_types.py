@@ -9,4 +9,6 @@ class RealmClickCommand(RealmFormatHelpMixin, click.Command):
 
 
 class RealmClickGroup(RealmFormatHelpMixin, Group):
-    pass
+    def format_options(self, ctx, formatter):
+        RealmFormatHelpMixin.format_options(self, ctx, formatter)
+        self.format_commands(ctx, formatter)

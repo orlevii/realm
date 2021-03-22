@@ -5,6 +5,7 @@ from realm.cli.commands.install import InstallCommand
 from realm.cli.commands.ls import LsCommand
 from realm.cli.commands.task import TaskCommand
 from realm.entities import Config, RealmContext
+from realm.utils.child_process import ChildProcess
 
 from tests.common import get_tests_root_dir, captured_output
 
@@ -47,3 +48,25 @@ class TestCommands(unittest.TestCase):
         output = out.getvalue()
         self.assertIn('Installing the current project: pkg', output)
         self.assertIn('Poe => python -m unittest discover -s tests -v -p "test_*.py"', output)
+
+    def test_git_diff(self):
+        cmd = LsCommand(self.ctx, since='origin/master')
+        with captured_output() as (out, _):
+            cmd.run()
+        output = out.getvalue().strip()
+        self.assertEqual(output, '')
+
+    def test_git_diff_with_change(self):
+        pkg_proj = [p for p in self.ctx.projects if p.name == 'pkg'][0]
+        try:
+            with pkg_proj.source_dir.joinpath('pyproject.toml').open('a') as f:
+                print('', file=f)
+
+            cmd = LsCommand(self.ctx, since='origin/master')
+
+            with captured_output() as (out, _):
+                cmd.run()
+            output = out.getvalue().strip()
+            self.assertEqual(output, 'pkg@0.1.0')
+        finally:
+            ChildProcess.run(f'git checkout {pkg_proj.source_dir}')

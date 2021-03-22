@@ -40,9 +40,6 @@ jobs:
           pip install -U pip
           pip install poetry poethepoet
           poetry install
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-        if: ${{ matrix.os == 'windows-latest' }}
       - name: Run tests
         run: poe test
       - name: Coverage report

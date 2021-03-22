@@ -34,12 +34,6 @@ def get_changed_projects(ctx: RealmContext, since):
         for proj in ctx.projects:
             project_path = os.path.join(relative_realm_repo_path,
                                         proj.relative_path)
-            print('----')
-            print('realm:', relative_realm_repo_path)
-            print('proj_relative:', proj.relative_path)
-            print('joined:', project_path)
-            print('changed_file:', file)
-            print('----')
             if file.startswith(project_path):
                 changed.add(proj)
                 continue

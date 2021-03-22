@@ -4,6 +4,9 @@ from realm.cli.realm_command import RealmCommand
 
 class LsCommand(RealmCommand[dict]):
     NAME = 'ls'
+    HELP_MESSAGE = """
+    Prints all projects managed
+    """
     PARAMS = [
         click.Option(['--paths'],
                      help='Prints relative paths of the projects',

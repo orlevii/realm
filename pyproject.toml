@@ -3,6 +3,15 @@ name = "realm"
 version = "0.1.0a1"
 description = "A tool for managing python poetry projects"
 authors = ["Or Levi <orlevi128@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+keywords = ["monorepo", "realm"]
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Topic :: Software Development :: Libraries",
+    "Programming Language :: Python :: 3 :: Only"
+]
 
 [tool.poetry.dependencies]
 python = "^3.6"

@@ -4,6 +4,9 @@ from realm.cli.realm_command import RealmCommand
 
 class RunCommand(RealmCommand[dict]):
     NAME = 'run'
+    HELP_MESSAGE = """
+    Executes a command on all projects
+    """
     PARAMS = [
         click.Argument(['command'], type=click.STRING, nargs=-1)
     ]

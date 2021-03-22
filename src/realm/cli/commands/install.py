@@ -4,6 +4,9 @@ from realm.cli.realm_command import RealmCommand
 
 class InstallCommand(RealmCommand[dict]):
     NAME = 'install'
+    HELP_MESSAGE = """
+    Executes "poetry install" on all projects
+    """
 
     def run(self):
         for project in self.ctx.projects:

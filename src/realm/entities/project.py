@@ -11,7 +11,7 @@ class Project:
     def __init__(self, source_dir, root_dir):
         self.source_dir = Path(source_dir)
         self.name = os.path.basename(source_dir)
-        self.relative_path = source_dir[len(root_dir):].lstrip('/')
+        self.relative_path = source_dir[len(root_dir):].lstrip(os.sep)
 
         toml_path = str(self.source_dir.joinpath(PYPROJECT_FILE))
         self.pyproject = toml.load(toml_path)

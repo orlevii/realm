@@ -39,7 +39,7 @@ def is_dependent(project: Project, changed_project: Project):
     dependency_path = dependency.get('path')
     if dependency_path is None:
         return False
-    return project.source_dir.joinpath(dependency_path).absolute() == changed_project.source_dir
+    return project.source_dir.joinpath(dependency_path).resolve() == changed_project.source_dir
 
 
 def get_changed_projects(ctx: RealmContext, since):

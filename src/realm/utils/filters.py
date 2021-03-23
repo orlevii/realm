@@ -1,6 +1,8 @@
 import os
 from typing import List
 
+from realm.entities import Project
+
 from ..entities.context import RealmContext
 from ..utils.child_process import ChildProcess
 
@@ -9,13 +11,35 @@ def apply_since_filters(ctx: RealmContext, since):
     changed_projects = get_changed_projects(ctx, since)
     dependent = set()
     for proj in ctx.projects:
-        changed_dep = [p for p in changed_projects if p.package_name in proj.dependencies.keys()]
-        if any(changed_dep):
+        if is_project_affect_by_change(proj, changed_projects):
             dependent.add(proj)
 
     dependent = dependent.union(changed_projects)
 
     ctx.projects = dependent
+
+
+def is_project_affect_by_change(project, changed_projects):
+    changed_dependencies = [
+        p
+        for p
+        in changed_projects
+        if is_dependent(project, p)
+    ]
+    return any(changed_dependencies)
+
+
+def is_dependent(project: Project, changed_project: Project):
+    dependency = project.dependencies.get(changed_project.package_name)
+    if dependency is None:
+        return False
+    if not isinstance(dependency, dict):
+        # Path dependency is a dict
+        return False
+    dependency_path = dependency.get('path')
+    if dependency_path is None:
+        return False
+    return project.source_dir.joinpath(dependency_path).absolute() == changed_project.source_dir
 
 
 def get_changed_projects(ctx: RealmContext, since):

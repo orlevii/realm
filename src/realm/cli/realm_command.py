@@ -28,6 +28,9 @@ class RealmCommand(BaseCommand[T], ABC):
         include_all_when_empty = self._params.get('all')
         if since:
             apply_since_filters(self.ctx, since)
+            if include_all_when_empty:
+                if not any(self.ctx.projects):
+                    self.ctx.projects = self.ctx.all_projects
 
         scope = self._params.get('scope')
         if scope:
@@ -50,7 +53,3 @@ class RealmCommand(BaseCommand[T], ABC):
                                  in self.ctx.projects
                                  if str(p.extract_field(f1)) == value or
                                  str(p.extract_field(f2)) == value]
-
-        if include_all_when_empty:
-            if not any(self.ctx.projects):
-                self.ctx.projects = self.ctx.all_projects

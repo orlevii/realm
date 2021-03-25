@@ -48,6 +48,9 @@ class Application:
                          help='Sets the parallelism for the command (if supported)'),
             GlobalOption(['--since'],
                          help='Includes only projects changed since the specified ref'),
+            GlobalOption(['--all'],
+                         is_flag=True,
+                         help='Include all projects if no projects were changed when using the --since filter'),
             GlobalOption(['--scope'],
                          type=click.STRING,
                          help='Includes only projects that match the given pattern'),
@@ -56,10 +59,7 @@ class Application:
                          help='Filters out projects that match the given pattern'),
             GlobalOption(['--match'],
                          type=click.STRING,
-                         help='Filters by a field specified in `pyproject.toml`'),
-            GlobalOption(['--all'],
-                         is_flag=True,
-                         help='Include all projects if post-filter-projects list is empty')
+                         help='Filters by a field specified in `pyproject.toml`')
         ]
 
     @staticmethod

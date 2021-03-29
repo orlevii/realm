@@ -3,7 +3,7 @@ Realm is tool for managing multiple poetry projects in the same git repository.
 
 This project is inspired by the `lerna` project available for JavaScript
 
-[![Build Status](https://github.com/orlevii/realm/workflows/build/badge.svg?branch=master&event=push)]()
+[![Build Status](https://github.com/orlevii/realm/workflows/build/badge.svg?branch=master&event=push)](https://github.com/orlevii/realm/actions/workflows/build.yml?query=branch%3Amaster)
 
 ### Requirements
 In order to start using realm, you first need to have [poetry](https://github.com/python-poetry/poetry) installed

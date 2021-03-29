@@ -46,16 +46,7 @@ class Project:
 
     def execute_cmd(self, cmd, **kwargs):
         full_cmd = cmd
-        env = dict(os.environ)
-        current_venv = os.getenv('VIRTUAL_ENV', os.getenv('CONDA_PREFIX'))
-        if current_venv:
-            path_env = os.environ.get('PATH', '')
-            # Remove venv from path
-            env['PATH'] = ':'.join([e for e
-                                    in path_env.split(':')
-                                    if current_venv not in e])
-            env.pop('VIRTUAL_ENV', None)
-            env.pop('CONDA_PREFIX', None)
+        env = self._create_env()
 
         try:
             params = dict(stdout=None,
@@ -72,3 +63,19 @@ class Project:
 
     def __repr__(self):
         return self.package_name
+
+    def _create_env(self):
+        env = dict(os.environ)
+        current_venv = os.getenv('VIRTUAL_ENV', os.getenv('CONDA_PREFIX'))
+        if current_venv:
+            path_env = os.environ.get('PATH', '')
+            # Remove venv from path
+            env['PATH'] = ':'.join([e for e
+                                    in path_env.split(':')
+                                    if current_venv not in e])
+            env.pop('VIRTUAL_ENV', None)
+            env.pop('CONDA_PREFIX', None)
+        env['REALM_PROJECT_NAME'] = self.name
+        env['REALM_PROJECT_PATH'] = self.source_dir
+
+        return env

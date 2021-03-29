@@ -1,7 +1,7 @@
 ## Realm
 Realm is tool for managing multiple poetry projects in the same git repository.
 
-This project took inspiration from the `lerna` project available for JavaScript
+This project is inspired by the `lerna` project available for JavaScript
 
 [![Build Status](https://github.com/orlevii/realm/workflows/build/badge.svg?branch=master&event=push)]()
 

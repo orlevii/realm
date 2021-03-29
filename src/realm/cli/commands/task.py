@@ -1,5 +1,6 @@
 import click
 from realm.cli.realm_command import RealmCommand
+from realm.utils import await_all
 
 
 class TaskCommand(RealmCommand[dict]):
@@ -21,23 +22,25 @@ class TaskCommand(RealmCommand[dict]):
     def run(self):
         task_name = self.params['task_name']
         failed_projects = []
-        std_outs = []
+        futures = []
         for project in self.ctx.projects:
-            click.echo(f'Running task {task_name} for: {project.name}')
-            try:
-                out = project.execute_cmd(f'poetry run poe {task_name}')
-                if out:
-                    std_outs.append(out)
-            except RuntimeError as e:
-                click.echo(e, err=True)
-                failed_projects.append(project)
+            f = self.pool.submit(self.execute_task, project, task_name, failed_projects)
+            futures.append(f)
+
+        await_all(futures)
 
         if any(failed_projects):
             names = [p.name for p in failed_projects]
             formatted_names = ', '.join(names)
             raise RuntimeError(f'Task {task_name} failed for projects: {formatted_names}')
 
-        if any(std_outs):
-            # For stdout capturing
-            outs = '\n'.join(std_outs)
-            click.echo(outs)
+    @staticmethod
+    def execute_task(project, task_name, failed_projects):
+        click.echo(f'Running task {task_name} for: {project.name}')
+        try:
+            out = project.execute_cmd(f'poetry run poe {task_name}')
+            if out:
+                click.echo(out)
+        except RuntimeError as e:
+            click.echo(e, err=True)
+            failed_projects.append(project)

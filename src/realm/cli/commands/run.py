@@ -1,5 +1,6 @@
 import click
 from realm.cli.realm_command import RealmCommand
+from realm.utils import await_all
 
 
 class RunCommand(RealmCommand[dict]):
@@ -14,5 +15,8 @@ class RunCommand(RealmCommand[dict]):
     def run(self):
         cmd = self.params.get('command')
         full_cmd = ' '.join(cmd)
-        for project in self.ctx.projects:
-            project.execute_cmd(full_cmd)
+        futures = [self.pool.submit(project.execute_cmd, full_cmd)
+                   for project
+                   in self.ctx.projects]
+
+        await_all(futures)

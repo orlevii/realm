@@ -76,6 +76,6 @@ class Project:
             env.pop('VIRTUAL_ENV', None)
             env.pop('CONDA_PREFIX', None)
         env['REALM_PROJECT_NAME'] = self.name
-        env['REALM_PROJECT_PATH'] = self.source_dir
+        env['REALM_PROJECT_PATH'] = str(self.source_dir)
 
         return env

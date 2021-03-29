@@ -7,6 +7,10 @@ license = "MIT"
 readme = "README.md"
 keywords = ["monorepo", "realm"]
 
+homepage = "https://github.com/orlevii/realm"
+repository = "https://github.com/orlevii/realm"
+documentation = "https://github.com/orlevii/realm"
+
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Topic :: Software Development :: Libraries",

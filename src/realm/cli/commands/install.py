@@ -1,5 +1,6 @@
 import click
 from realm.cli.realm_command import RealmCommand
+from realm.utils import await_all
 
 
 class InstallCommand(RealmCommand[dict]):
@@ -9,8 +10,15 @@ class InstallCommand(RealmCommand[dict]):
     """
 
     def run(self):
-        for project in self.ctx.projects:
-            out = project.execute_cmd('poetry install')
-            if out:
-                # used only for tests :(
-                click.echo(out)
+        futures = [self.pool.submit(self._install, project)
+                   for project
+                   in self.ctx.projects]
+
+        await_all(futures)
+
+    @staticmethod
+    def _install(project):
+        out = project.execute_cmd('poetry install')
+        if out:
+            # used only for tests :(
+            click.echo(out)

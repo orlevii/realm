@@ -1,5 +1,5 @@
 import fnmatch
-import multiprocessing as mp
+from concurrent.futures import ThreadPoolExecutor, Executor
 import os
 from abc import ABC
 
@@ -17,10 +17,9 @@ class RealmCommand(BaseCommand[T], ABC):
         super().__init__(ctx, **kwargs)
         # Just for the type annotation
         self.ctx = ctx
-
-        self.pool = mp.Pool(self._params.get('parallelism', 1))
+        self.pool = ThreadPoolExecutor(self._params.get('parallelism', 1))
         self._filter_projects()
-        os.environ['REALM_ROOT'] = self.ctx.config.root_dir
+        os.environ['REALM_ROOT_PATH'] = self.ctx.config.root_dir
 
     def _filter_projects(self):
         # TODO: refactor into smaller methods, allow multiple values

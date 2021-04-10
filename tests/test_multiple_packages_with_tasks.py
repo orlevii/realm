@@ -50,7 +50,7 @@ class TestCommands(unittest.TestCase):
         self.assertIn('Poe => python -m unittest discover -s tests -v -p "test_*.py"', output)
 
     def test_git_diff(self):
-        cmd = LsCommand(self.ctx, since='origin/master')
+        cmd = LsCommand(self.ctx, since='.')
         with captured_output() as (out, _):
             cmd.run()
         output = out.getvalue().strip()
@@ -62,7 +62,7 @@ class TestCommands(unittest.TestCase):
             with pkg_proj.source_dir.joinpath('pyproject.toml').open('a') as f:
                 print('', file=f)
 
-            cmd = LsCommand(self.ctx, since='origin/master')
+            cmd = LsCommand(self.ctx, since='.')
 
             with captured_output() as (out, _):
                 cmd.run()
@@ -70,3 +70,24 @@ class TestCommands(unittest.TestCase):
             self.assertEqual(output, 'pkg@0.1.0')
         finally:
             ChildProcess.run(f'git checkout {pkg_proj.source_dir}')
+
+    def test_scope_filter(self):
+        cmd = LsCommand(self.ctx, scope=['p*'])
+        with captured_output() as (out, _):
+            cmd.run()
+        output = out.getvalue().strip()
+        self.assertEqual(output, 'pkg@0.1.0')
+
+    def test_ignore_filter(self):
+        cmd = LsCommand(self.ctx, ignore=['p*'])
+        with captured_output() as (out, _):
+            cmd.run()
+        output = out.getvalue().strip()
+        self.assertEqual(output, '')
+
+    def test_match_filter(self):
+        cmd = LsCommand(self.ctx, match=['labels.type=package'])
+        with captured_output() as (out, _):
+            cmd.run()
+        output = out.getvalue().strip()
+        self.assertEqual(output, 'pkg@0.1.0')

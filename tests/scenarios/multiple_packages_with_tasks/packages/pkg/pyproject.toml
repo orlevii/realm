@@ -4,6 +4,9 @@ version = "0.1.0"
 description = ""
 authors = ["Or Levi <orlevi128@gmail.com>"]
 
+[tool.realm.labels]
+type = "package" # used for filtering
+
 [tool.poetry.dependencies]
 python = "^3.6"
 

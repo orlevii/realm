@@ -53,13 +53,16 @@ class Application:
                          help='Include all projects if no projects were changed when using the --since filter'),
             GlobalOption(['--scope'],
                          type=click.STRING,
-                         help='Includes only projects that match the given pattern'),
+                         help='Includes only projects that match the given pattern',
+                         multiple=True),
             GlobalOption(['--ignore'],
                          type=click.STRING,
-                         help='Filters out projects that match the given pattern'),
+                         help='Filters out projects that match the given pattern',
+                         multiple=True),
             GlobalOption(['--match'],
                          type=click.STRING,
-                         help='Filters by a field specified in `pyproject.toml`')
+                         help='Filters by a field specified in `pyproject.toml`',
+                         multiple=True)
         ]
 
     @staticmethod
@@ -102,7 +105,7 @@ class Application:
 
         projects = []
         for path in candidates:
-            if 'pyproject.toml' in os.listdir(path):
+            if os.path.isdir(path) and 'pyproject.toml' in os.listdir(path):
                 projects.append(Project(source_dir=path,
                                         root_dir=cfg.root_dir))
 

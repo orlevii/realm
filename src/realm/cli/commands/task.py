@@ -1,3 +1,5 @@
+import sys
+
 import click
 from realm.cli.realm_command import RealmCommand
 from realm.utils import await_all
@@ -32,7 +34,9 @@ class TaskCommand(RealmCommand[dict]):
         if any(failed_projects):
             names = [p.name for p in failed_projects]
             formatted_names = ', '.join(names)
-            raise RuntimeError(f'Task {task_name} failed for projects: {formatted_names}')
+            msg = f'Task {task_name} failed for projects: {formatted_names}'
+            click.echo(msg, err=True)
+            sys.exit(1)
 
     @staticmethod
     def execute_task(project, task_name, failed_projects):

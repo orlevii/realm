@@ -1,3 +1,5 @@
+import sys
+
 import click
 from realm.cli.realm_command import RealmCommand
 from realm.utils import await_all
@@ -18,7 +20,11 @@ class InstallCommand(RealmCommand[dict]):
 
     @staticmethod
     def _install(project):
-        out = project.execute_cmd('poetry install')
-        if out:
-            # used only for tests :(
-            click.echo(out)
+        try:
+            out = project.execute_cmd('poetry install')
+            if out:
+                # used only for tests :(
+                click.echo(out)
+        except Exception as e:
+            click.echo(e, err=True)
+            sys.exist(1)

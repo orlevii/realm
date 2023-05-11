@@ -19,8 +19,8 @@ class RunCommand(RealmCommand[dict]):
             cmd = self.params.get('command')
             full_cmd = ' '.join(cmd)
             futures = [self.pool.submit(project.execute_cmd, full_cmd)
-                    for project
-                    in self.ctx.projects]
+                       for project
+                       in self.ctx.projects]
 
             await_all(futures)
         except Exception as e:

@@ -8,7 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python 3.7
-        uses: actions/setup-python@32
+        uses: actions/setup-python@3
         with:
           python-version: 3.7
       - name: Install dev-dependencies

@@ -60,7 +60,8 @@ class SinceFilter:
         for file in changed_files:
             for proj in ctx.projects:
                 project_path = os.path.join(relative_realm_repo_path,
-                                            proj.relative_path)
+                                            proj.relative_path).rstrip(os.path.sep)
+                project_path += os.path.sep
                 if file.startswith(project_path):
                     changed.add(proj)
                     continue

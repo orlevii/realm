@@ -37,8 +37,8 @@ realm = 'realm.cli.application:cli'
 [tool.poe.tasks]
 test.shell = 'coverage run --source ./src -m unittest discover -s tests -v -p "test_*.py"'
 lint.shell = """
-poetry run flake8 . --count --ignore F401,F841,W504 --show-source && \
-poetry run flake8 . --count --exit-zero --max-complexity=10
+flake8 . --count --ignore F401,F841,W504 --show-source && \
+flake8 . --count --exit-zero --max-complexity=10
 """
 
 [build-system]

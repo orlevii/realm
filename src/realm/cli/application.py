@@ -66,7 +66,7 @@ class Application:
         ]
 
     @staticmethod
-    def print_version(ctx, value):
+    def print_version(ctx, _, value):
         if value:
             msg = 'Realm {}'.format(click.style(__version__, fg='yellow'))
             click.echo(msg)

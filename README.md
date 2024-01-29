@@ -26,11 +26,10 @@ You can apply filters to affect only specific projects. For example, to install 
 $ realm install --since origin/master
 ```
 
-Available filters:
-
-* **--since:** Includes only projects changed since the specified reference.
-* **--scope:** Includes only projects that match the given pattern.
-* **--ignore:** Excludes projects that match the given pattern.
-* **--match:** Filters projects by a field specified in the pyproject.toml file.
+**Available filters:**
+* <code>--since</code> - Includes only projects changed since the specified reference.
+* <code>--scope</code> - Includes only projects that match the given pattern.
+* <code>--ignore</code> - Excludes projects that match the given pattern.
+* <code>--match</code> - Filters projects by a field specified in the pyproject.toml file.
 
 Feel free to contribute, report issues, or suggest improvements. Happy coding with `realm`!

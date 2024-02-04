@@ -7,7 +7,7 @@ from realm.cli.commands.task import TaskCommand
 from realm.entities import Config, RealmContext
 from realm.utils.child_process import ChildProcess
 
-from tests.common import get_tests_root_dir, captured_output
+from tests.common import captured_output, get_tests_root_dir
 
 REPO_DIR = get_tests_root_dir().joinpath("scenarios/multiple_packages_with_tasks")
 
@@ -60,7 +60,7 @@ class TestCommands(unittest.TestCase):
         self.assertEqual(output, "")
 
     def test_git_diff_with_change(self):
-        pkg_proj = [p for p in self.ctx.projects if p.name == "pkg"][0]
+        pkg_proj = next(p for p in self.ctx.projects if p.name == "pkg")
         try:
             with pkg_proj.source_dir.joinpath("pyproject.toml").open("a") as f:
                 print("", file=f)
@@ -70,7 +70,7 @@ class TestCommands(unittest.TestCase):
             with captured_output() as (out, _):
                 cmd.run()
             output = out.getvalue().strip()
-            self.assertEquals("pkg@0.1.0", output)
+            self.assertEqual("pkg@0.1.0", output)
         finally:
             ChildProcess.run(f"git checkout {pkg_proj.source_dir}")
 

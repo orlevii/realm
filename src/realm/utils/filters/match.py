@@ -12,13 +12,14 @@ class MatchFilter:
 
         filtered = []
         for match in matches:
-            field, _, value = match.partition('=')
-            f1 = f'tool.realm.{field}'
-            f2 = f'tool.{field}'
-            f = {p for p
-                 in ctx.projects
-                 if cls._matches(p, f1, value) or
-                 cls._matches(p, f2, value)}
+            field, _, value = match.partition("=")
+            f1 = f"tool.realm.{field}"
+            f2 = f"tool.{field}"
+            f = {
+                p
+                for p in ctx.projects
+                if cls._matches(p, f1, value) or cls._matches(p, f2, value)
+            }
             filtered.append(f)
 
         ctx.projects = cls._union(filtered)

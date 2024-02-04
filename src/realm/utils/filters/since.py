@@ -24,10 +24,7 @@ class SinceFilter:
     @classmethod
     def is_project_affect_by_change(cls, project, changed_projects):
         changed_dependencies = [
-            p
-            for p
-            in changed_projects
-            if cls.is_dependent(project, p)
+            p for p in changed_projects if cls.is_dependent(project, p)
         ]
         return any(changed_dependencies)
 
@@ -39,18 +36,21 @@ class SinceFilter:
         if not isinstance(dependency, dict):
             # Path dependency is a dict
             return False
-        dependency_path = dependency.get('path')
+        dependency_path = dependency.get("path")
         if dependency_path is None:
             return False
-        return project.source_dir.joinpath(dependency_path).resolve() == changed_project.source_dir
+        return (
+            project.source_dir.joinpath(dependency_path).resolve()
+            == changed_project.source_dir
+        )
 
     @classmethod
     def get_changed_projects(cls, ctx: RealmContext, since):
-        changed_files = ChildProcess.run(f'git diff --name-only {since}')
-        git_root = ChildProcess.run('git rev-parse --show-toplevel')
-        git_root = git_root.strip() if git_root else ''
+        changed_files = ChildProcess.run(f"git diff --name-only {since}")
+        git_root = ChildProcess.run("git rev-parse --show-toplevel")
+        git_root = git_root.strip() if git_root else ""
 
-        relative_realm_repo_path = ctx.config.root_dir[len(git_root):].lstrip(os.sep)
+        relative_realm_repo_path = ctx.config.root_dir[len(git_root) :].lstrip(os.sep)
 
         changed_files = cls.parse_changed_files(changed_files)
 
@@ -59,8 +59,9 @@ class SinceFilter:
 
         for file in changed_files:
             for proj in ctx.projects:
-                project_path = os.path.join(relative_realm_repo_path,
-                                            proj.relative_path).rstrip(os.path.sep)
+                project_path = os.path.join(
+                    relative_realm_repo_path, proj.relative_path
+                ).rstrip(os.path.sep)
                 project_path += os.path.sep
                 if file.startswith(project_path):
                     changed.add(proj)
@@ -70,12 +71,7 @@ class SinceFilter:
     @classmethod
     def parse_changed_files(cls, changed_files: str) -> List[str]:
         def handle_windows(p: str):
-            return p.replace('/', os.sep)
+            return p.replace("/", os.sep)
 
-        changed_files = changed_files if changed_files else ''
-        return [
-            handle_windows(f.strip())
-            for f
-            in changed_files.split('\n')
-            if f
-        ]
+        changed_files = changed_files if changed_files else ""
+        return [handle_windows(f.strip()) for f in changed_files.split("\n") if f]

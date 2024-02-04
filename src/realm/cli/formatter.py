@@ -9,21 +9,19 @@ class RealmFormatter(click.HelpFormatter):
         self.options_color = options_color
         super().__init__(*args, **kwargs)
 
-    def write_usage(self, prog, args='', prefix='Usage: '):
+    def write_usage(self, prog, args="", prefix="Usage: "):
         colorized_prefix = click.style(prefix, fg=self.headers_color)
-        super().write_usage(prog,
-                            args,
-                            prefix=colorized_prefix)
+        super().write_usage(prog, args, prefix=colorized_prefix)
 
     def write_heading(self, heading):
-        self.write(click.style('', fg=self.headers_color, reset=False))
+        self.write(click.style("", fg=self.headers_color, reset=False))
         super().write_heading(heading)
-        self.write(click.style('', reset=True))
+        self.write(click.style("", reset=True))
 
     def write_dl(self, rows, **kwargs):
-        colorized_rows = [(click.style(row[0], fg=self.options_color), row[1])
-                          for row
-                          in rows]
+        colorized_rows = [
+            (click.style(row[0], fg=self.options_color), row[1]) for row in rows
+        ]
         super().write_dl(colorized_rows, **kwargs)
 
 
@@ -32,10 +30,11 @@ class RealmFormatHelpMixin(click.Command):
         formatter = RealmFormatter(
             width=500,
             max_width=ctx.max_content_width,
-            headers_color='yellow',
-            options_color='bright_blue')
+            headers_color="yellow",
+            options_color="bright_blue",
+        )
         self.format_help(ctx, formatter)
-        return formatter.getvalue().rstrip('\n')
+        return formatter.getvalue().rstrip("\n")
 
     def format_options(self, ctx, formatter):
         """Writes all the options into the formatter if they exist."""
@@ -59,4 +58,4 @@ class RealmFormatHelpMixin(click.Command):
 
     @staticmethod
     def __is_global_option(opt: click.Option):
-        return isinstance(opt, GlobalOption) or opt.name == 'help'
+        return isinstance(opt, GlobalOption) or opt.name == "help"

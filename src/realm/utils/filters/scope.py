@@ -12,9 +12,7 @@ class ScopeFilter:
 
         filtered = []
         for scope in scopes:
-            f = {p for p
-                 in ctx.projects
-                 if fnmatch.fnmatch(p.name, scope)}
+            f = {p for p in ctx.projects if fnmatch.fnmatch(p.name, scope)}
             filtered.append(f)
 
         ctx.projects = cls._union(filtered)

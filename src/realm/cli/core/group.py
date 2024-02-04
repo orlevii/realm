@@ -11,13 +11,11 @@ class Group(click.Group):
         if not created_cmd.params:
             created_cmd.params = []
         created_cmd.params.extend(self.params)
-        super().add_command(created_cmd,
-                            name=name)
+        super().add_command(created_cmd, name=name)
 
     def add_group(self, grp: click.Group, name=None):
         if not grp.params:
             grp.params = []
         grp.params.extend(self.params)
         # Call the original add_command that also handles group
-        super(Group, self).add_command(grp,
-                                       name=name)
+        super(Group, self).add_command(grp, name=name)

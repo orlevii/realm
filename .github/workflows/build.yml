@@ -39,21 +39,23 @@ jobs:
           python3 -c "import sys; print('-'.join(str(v) for v in sys.version_info))" > ~/py-ver.txt
           echo version=$(cat ~/py-ver.txt) >> $GITHUB_OUTPUT
       - name: Install poetry
+        id: poetry
         run: |
           pip install -U pip
           pip install poetry==1.7.1 poethepoet
           poetry config --list
+          echo cache_dir=$(poetry config cache-dir) >> $GITHUB_OUTPUT
       - name: Restore Cache
         uses: actions/cache@v4
         id: cache
         with:
-          path: ~/.cache/pypoetry/virtualenvs
+          path: ${{ steps.poetry.outputs.cache_dir }}/virtualenvs
           key: poetry-${{ runner.os }}-${{ steps.py-version.outputs.version }}-${{ hashFiles('**/poetry.lock', '**/pyproject.toml') }}
           restore-keys:
             poetry-${{ runner.os }}-${{ steps.py-version.outputs.version }}-
       - name: Install dependencies
         run: |
-          poetry install
+          poetry install --sync
       - name: Run tests
         run: poe test
       - name: Coverage report

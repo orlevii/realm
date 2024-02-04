@@ -45,7 +45,8 @@ jobs:
       - name: Install poetry
         id: poetry
         run: |
-          pipx install poetry==1.7.1 poethepoet
+          pipx install poethepoet
+          pipx install poetry==1.7.1
           poetry config --list
       - name: Install dependencies
         run: |

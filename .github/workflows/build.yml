@@ -14,7 +14,7 @@ jobs:
       - name: Install dev-dependencies
         run: |
           pip install -U pip
-          pip install poetry==1.4.2 poethepoet
+          pip install poetry==1.7.1 poethepoet
           poetry install
       - name: Lint
         run: poe lint
@@ -33,10 +33,23 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Python version
+        id: py-version
+        run: |
+          PY_VER=`python3 -c "import sys; print('-'.join(str(v) for v in sys.version_info))"`
+          echo version=$PY_VER >> $GITHUB_OUTPUT
+      - name: Restore Cache
+        uses: actions/cache@v4
+        id: cache
+        with:
+          path: ~/.cache/pypoetry/virtualenvs
+          key: poetry-${{ runner.os }}-${{ steps.py-version.outputs.version }}-${{ hashFiles('**/poetry.lock', '**/pyproject.toml') }}
+          restore-keys:
+            poetry-${{ runner.os }}-${{ steps.py-version.outputs.version }}-
       - name: Install dependencies
         run: |
           pip install -U pip
-          pip install poetry==1.4.2 poethepoet
+          pip install poetry==1.7.1 poethepoet
           poetry install
       - name: Run tests
         run: poe test

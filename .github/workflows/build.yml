@@ -50,7 +50,7 @@ jobs:
         run: |
           pip install -U pip
           pip install poetry==1.7.1 poethepoet
-          poetry install --sync
+          poetry install
       - name: Run tests
         run: poe test
       - name: Coverage report

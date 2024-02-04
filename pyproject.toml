@@ -30,8 +30,8 @@ colorama = "^0.4.6"
 tasks = ['poethepoet']
 
 [tool.poetry.group.dev.dependencies]
-flake8 = "^7.0.0"
 coverage = "^7.4.0"
+ruff = "^0.2.0"
 
 [tool.poetry.scripts]
 realm = 'realm.cli.application:cli'

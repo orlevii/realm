@@ -37,7 +37,7 @@ jobs:
         id: py-version
         run: |
           python3 -c "import sys; print('-'.join(str(v) for v in sys.version_info))" > ~/py-ver.txt
-          echo version=$(cat ~/.py-ver.txt) >> $GITHUB_OUTPUT
+          echo version=$(cat ~/py-ver.txt) >> $GITHUB_OUTPUT
       - name: Restore Cache
         uses: actions/cache@v4
         id: cache

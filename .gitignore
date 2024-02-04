@@ -8,3 +8,4 @@ dist/
 venv/
 temp/
 tmp/
+.ruff_cache/

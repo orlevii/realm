@@ -12,9 +12,7 @@ class IgnoreFilter:
 
         filtered = []
         for ignore in ignores:
-            f = {p for p
-                 in ctx.projects
-                 if not fnmatch.fnmatch(p.name, ignore)}
+            f = {p for p in ctx.projects if not fnmatch.fnmatch(p.name, ignore)}
             filtered.append(f)
 
         ctx.projects = cls._intersect(filtered)

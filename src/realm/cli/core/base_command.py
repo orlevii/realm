@@ -1,7 +1,7 @@
 import abc
 import re
 import sys
-from typing import Optional, List, Generic, TypeVar, Type
+from typing import Generic, List, Optional, Type, TypeVar
 
 import click
 
@@ -55,4 +55,4 @@ class BaseCommand(Generic[T]):
         Runs the command
         :return: Exit code
         """
-        pass
+        raise NotImplementedError()

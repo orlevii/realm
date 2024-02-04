@@ -38,10 +38,9 @@ realm = 'realm.cli.application:cli'
 
 [tool.poe.tasks]
 test.shell = 'coverage run --source ./src -m unittest discover -s tests -v -p "test_*.py"'
-lint.shell = """
-flake8 . --count --ignore F401,F841,W504 --show-source && \
-flake8 . --count --exit-zero --max-complexity=10
-"""
+lint.shell = "ruff src tests"
+format.shell = "ruff format src tests"
+
 
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
@@ -70,7 +69,7 @@ extend-select = [
     "TID", # flake8-tidy-imports
     "UP",  # pyupgrade
 ]
-ignore = []
+ignore = ["RUF012"]
 fixable = ["ALL"]
 unfixable = []
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"

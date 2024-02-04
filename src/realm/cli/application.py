@@ -6,6 +6,7 @@ import sys
 from typing import List
 
 import click
+
 from realm.entities import Config, Project, RealmContext
 from realm.version import __version__
 

@@ -1,4 +1,5 @@
 import click
+
 from realm.cli.realm_command import RealmCommand
 
 

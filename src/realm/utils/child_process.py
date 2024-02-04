@@ -1,11 +1,10 @@
 import shlex
-
 import subprocess
 
 
 class ChildProcess:
     FORCE_CAPTURE = False
-    CAPTURE_PARAMS = dict(stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    CAPTURE_PARAMS = {"stdout": subprocess.PIPE, "stderr": subprocess.PIPE}
 
     @classmethod
     def run(cls, command, **kwargs) -> str:

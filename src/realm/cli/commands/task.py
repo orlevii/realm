@@ -1,6 +1,7 @@
 import sys
 
 import click
+
 from realm.cli.realm_command import RealmCommand
 from realm.utils import await_all
 

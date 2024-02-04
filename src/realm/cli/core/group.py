@@ -18,4 +18,4 @@ class Group(click.Group):
             grp.params = []
         grp.params.extend(self.params)
         # Call the original add_command that also handles group
-        super(Group, self).add_command(grp, name=name)
+        super().add_command(grp, name=name)

@@ -1,7 +1,7 @@
 import fnmatch
 from typing import List
 
-from realm.entities import RealmContext, Project
+from realm.entities import Project, RealmContext
 
 
 class MatchFilter:

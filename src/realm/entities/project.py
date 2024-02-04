@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 
 import toml
+
 from realm.utils.child_process import ChildProcess
 
 PYPROJECT_FILE = "pyproject.toml"
@@ -54,14 +55,18 @@ class Project:
         env = self._create_env()
 
         try:
-            params = dict(
-                stdout=None, stderr=None, shell=True, env=env, cwd=self.source_dir
-            )
+            params = {
+                "stdout": None,
+                "stderr": None,
+                "shell": True,
+                "env": env,
+                "cwd": self.source_dir,
+            }
             params.update(kwargs)
             return ChildProcess.run(full_cmd, **params)
         except RuntimeError as e:
-            msg = f"{str(e)}\nproject: {os.path.basename(self.source_dir)}"
-            raise RuntimeError(msg)
+            msg = f"{e!s}\nproject: {os.path.basename(self.source_dir)}"
+            raise RuntimeError(msg) from e
 
     def __repr__(self):
         return self.package_name

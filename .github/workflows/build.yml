@@ -38,11 +38,14 @@ jobs:
         run: |
           python3 -c "import sys; print('-'.join(str(v) for v in sys.version_info))" > ~/py-ver.txt
           echo version=$(cat ~/py-ver.txt) >> $GITHUB_OUTPUT
+      - name: Install pipx
+        run: |
+          pip install --user pipx
+          pipx ensurepath
       - name: Install poetry
         id: poetry
         run: |
-          pip install -U pip
-          pip install poetry==1.7.1 poethepoet
+          pipx install poetry==1.7.1 poethepoet
           poetry config --list
       - name: Install dependencies
         run: |

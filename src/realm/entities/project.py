@@ -40,7 +40,7 @@ class Project:
         for _, group_value in tool_poetry.get('groups', {}):
             all_dependencies.update(group_value.get('dependencies', {}))
 
-        all_dependencies = all_dependencies.update(tool_poetry.get('dev-dependencies', {}))
+        all_dependencies.update(tool_poetry.get('dev-dependencies', {}))
         all_dependencies.update(tool_poetry['dependencies'])
 
         return all_dependencies

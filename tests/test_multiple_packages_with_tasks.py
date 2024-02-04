@@ -26,14 +26,15 @@ class TestCommands(unittest.TestCase):
 
     def test_scan(self):
         found = len(self.ctx.projects)
-        self.assertEqual(found, 1)
+        self.assertEqual(found, 2)
 
     def test_ls(self):
         cmd = LsCommand(self.ctx)
         with captured_output() as (out, _):
             cmd.run()
         output = out.getvalue().strip()
-        self.assertEqual(output, 'pkg@0.1.0')
+        self.assertIn('pkg@0.1.0', output)
+        self.assertIn('pkg_with_groups@0.1.0', output)
 
     def test_task_install(self):
         install_cmd = InstallCommand(self.ctx)
@@ -67,12 +68,12 @@ class TestCommands(unittest.TestCase):
             with captured_output() as (out, _):
                 cmd.run()
             output = out.getvalue().strip()
-            self.assertEqual(output, 'pkg@0.1.0')
+            self.assertEquals('pkg@0.1.0', output)
         finally:
             ChildProcess.run(f'git checkout {pkg_proj.source_dir}')
 
     def test_scope_filter(self):
-        cmd = LsCommand(self.ctx, scope=['p*'])
+        cmd = LsCommand(self.ctx, scope=['p*'], ignore=['*with*'])
         with captured_output() as (out, _):
             cmd.run()
         output = out.getvalue().strip()

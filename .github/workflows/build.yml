@@ -20,10 +20,13 @@ jobs:
           pipx install realm==0.3.0 --python python
           pipx install poetry==1.7.1 --python python
           pipx install ruff --python python
-      - name: Install project dependencies
-        run: realm install
       - name: Lint
-        run: ruff $(realm ls --since HEAD --paths)
+        run: |
+          MERGE_SHA=$(git merge-base ${{ github.ref_name }} master)
+          echo $MERGE_SHA
+          realm ls --since $MERGE_SHA
+          echo -----------------
+          realm run --since $MERGE_SHA -- ruff .
 
   test:
     runs-on: ${{ matrix.os }}

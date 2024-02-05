@@ -22,6 +22,7 @@ jobs:
           pipx install ruff --python python
       - name: Lint
         run: |
+          git fetch origin main
           MERGE_SHA=$(git merge-base ${{ github.ref_name }} main)
           echo $MERGE_SHA
           realm ls --since $MERGE_SHA

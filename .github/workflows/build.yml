@@ -20,8 +20,8 @@ jobs:
           pipx ensurepath
       - name: Install global dependencies
         run: |
-          pipx install realm==0.3.0 --python python
           pipx install poetry==1.7.1 --python python
+          pipx install realm==0.3.0 --python python
           pipx install ruff --python python
       - name: Lint
         run: |
@@ -56,9 +56,9 @@ jobs:
           pipx ensurepath
       - name: Install global dependencies
         run: |
-          pipx install realm==0.3.0 --python python${{ matrix.python-version }}
           pipx install poetry==1.7.1 --python python${{ matrix.python-version }}
           pipx install poethepoet --python python${{ matrix.python-version }}
+          pipx install realm==0.3.0 --python python${{ matrix.python-version }}
           pipx install coverage --python python${{ matrix.python-version }}
           poetry config --list
       - name: Install project dependencies

@@ -19,12 +19,11 @@ jobs:
         run: |
           pipx install realm==0.3.0 --python python
           pipx install poetry==1.7.1 --python python
-          pipx install poethepoet --python python
-          pipx install coverage --python python
+          pipx install ruff --python python
       - name: Install project dependencies
         run: realm install
       - name: Lint
-        run: realm task lint
+        run: ruff $(realm ls --since HEAD --paths)
 
   test:
     runs-on: ${{ matrix.os }}

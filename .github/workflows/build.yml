@@ -15,13 +15,13 @@ jobs:
         run: |
           pip install --user pipx
           pipx ensurepath
-      - name: Install relevant dependencies
+      - name: Install global dependencies
         run: |
           pipx install realm==0.3.0 --python python
           pipx install poetry==1.7.1 --python python
           pipx install poethepoet --python python
           pipx install coverage --python python
-      - name: Install dependencies
+      - name: Install project dependencies
         run: realm install
       - name: Lint
         run: realm task lint
@@ -49,14 +49,14 @@ jobs:
         run: |
           pip install --user pipx
           pipx ensurepath
-      - name: Install relevant dependencies
+      - name: Install global dependencies
         run: |
           pipx install realm==0.3.0 --python python
           pipx install poetry==1.7.1 --python python
           pipx install poethepoet --python python
           pipx install coverage --python python
           poetry config --list
-      - name: Install dependencies
+      - name: Install project dependencies
         run: realm install
       - name: Run tests
         run: realm task test

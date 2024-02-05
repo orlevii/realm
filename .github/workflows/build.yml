@@ -6,18 +6,21 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python 3.8
         uses: actions/setup-python@v3
         with:
           python-version: '3.8'
-      - name: Install dev-dependencies
+      - name: Install pipx
         run: |
-          pip install -U pip
-          pip install poetry==1.7.1 poethepoet
-          poetry install
+          pip install --user pipx
+          pipx ensurepath
+      - name: Install relevant dependencies
+        run: pipx install "realm==0.3.0" "poetry==1.7.1" "poethepoet" "coverage" --python python
+      - name: Install dependencies
+        run: realm install
       - name: Lint
-        run: poe lint
+        run: realm task lint
 
   test:
     runs-on: ${{ matrix.os }}

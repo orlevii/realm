@@ -7,6 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: git branch --track main origin/main
       - name: Set up Python 3.8
         uses: actions/setup-python@v3
         with:
@@ -22,7 +25,6 @@ jobs:
           pipx install ruff --python python
       - name: Lint
         run: |
-          git branch --track main origin/main
           MERGE_SHA=$(git merge-base ${{ github.ref_name }} main)
           echo $MERGE_SHA
           realm ls --since $MERGE_SHA

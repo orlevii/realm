@@ -37,8 +37,7 @@ jobs:
       max-parallel: 4
       matrix:
         os: [ ubuntu-latest, macos-latest, windows-latest ]
-        python-version: [ '3.8', '3.9', '3.10', '3.11' ]
-
+        python-version: [ '3.8', '3.9', '3.10', '3.11', '3.12' ]
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python ${{ matrix.python-version }}
@@ -56,10 +55,10 @@ jobs:
           pipx ensurepath
       - name: Install global dependencies
         run: |
-          pipx install poetry==1.7.1 --python python${{ matrix.python-version }}
-          pipx install poethepoet --python python${{ matrix.python-version }}
-          pipx install realm==0.3.0 --python python${{ matrix.python-version }}
-          pipx install coverage --python python${{ matrix.python-version }}
+          pipx install poetry==1.7.1
+          pipx install poethepoet
+          pipx install realm==0.3.0
+          pipx install coverage
           poetry config --list
       - name: Install project dependencies
         run: realm install

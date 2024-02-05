@@ -23,6 +23,8 @@ extend-select = [
     "TCH", # flake8-type-checking
     "TID", # flake8-tidy-imports
     "UP",  # pyupgrade
+    "Q0",  # flake8-quoutes
+    "W",   # flake8
 ]
 ignore = ["RUF012"]
 fixable = ["ALL"]

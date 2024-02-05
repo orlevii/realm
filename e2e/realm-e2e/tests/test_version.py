@@ -8,5 +8,5 @@ class TestVersion(unittest.TestCase):
         ChildProcess.FORCE_CAPTURE = True
 
     def test_version(self):
-        out = ChildProcess.run('realm -V')
-        self.assertIn('Realm', out)    
+        out = ChildProcess.run("realm -V")
+        self.assertIn("Realm", out)

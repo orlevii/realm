@@ -42,11 +42,10 @@ jobs:
         run: |
           pip install --user pipx
           pipx ensurepath
-      - name: Install poetry
+      - name: Install relevant dependencies
         id: poetry
         run: |
-          pipx install poethepoet
-          pipx install poetry==1.7.1
+          pipx install "realm==0.3.0" "poetry==1.7.1" "poethepoet" --python python
           poetry config --list
       - name: Install dependencies
         run: |

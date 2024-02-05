@@ -43,14 +43,14 @@ jobs:
           pip install --user pipx
           pipx ensurepath
       - name: Install relevant dependencies
-        id: poetry
         run: |
-          pipx install "realm==0.3.0" "poetry==1.7.1" "poethepoet" --python python
+          pipx install "realm==0.3.0" "poetry==1.7.1" "poethepoet" "coverage" --python python
           poetry config --list
       - name: Install dependencies
-        run: |
-          poetry install --sync
+        run: realm install
       - name: Run tests
-        run: poe test
+        run: realm task test
       - name: Coverage report
-        run: poetry run coverage report
+        run: |
+          coverage combine ./*/**/.coverage || true
+          coverage report || true

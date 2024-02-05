@@ -14,7 +14,7 @@ jobs:
       - name: Install dev-dependencies
         run: |
           pip install -U pip
-          pip install poetry==1.4.2 poethepoet
+          pip install poetry==1.7.1 poethepoet
           poetry install
       - name: Lint
         run: poe lint
@@ -28,16 +28,29 @@ jobs:
         python-version: [ '3.8', '3.9', '3.10', '3.11' ]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Python version
+        id: py-version
+        run: |
+          python3 -c "import sys; print('-'.join(str(v) for v in sys.version_info))" > ~/py-ver.txt
+          echo version=$(cat ~/py-ver.txt) >> $GITHUB_OUTPUT
+      - name: Install pipx
+        run: |
+          pip install --user pipx
+          pipx ensurepath
+      - name: Install poetry
+        id: poetry
+        run: |
+          pipx install poethepoet
+          pipx install poetry==1.7.1
+          poetry config --list
       - name: Install dependencies
         run: |
-          pip install -U pip
-          pip install poetry==1.4.2 poethepoet
-          poetry install
+          poetry install --sync
       - name: Run tests
         run: poe test
       - name: Coverage report

@@ -16,7 +16,11 @@ jobs:
           pip install --user pipx
           pipx ensurepath
       - name: Install relevant dependencies
-        run: pipx install "realm==0.3.0" "poetry==1.7.1" "poethepoet" "coverage" --python python
+        run: |
+          pipx install realm==0.3.0 --python python
+          pipx install poetry==1.7.1 --python python
+          pipx install poethepoet --python python
+          pipx install coverage --python python
       - name: Install dependencies
         run: realm install
       - name: Lint
@@ -47,7 +51,10 @@ jobs:
           pipx ensurepath
       - name: Install relevant dependencies
         run: |
-          pipx install "realm==0.3.0" "poetry==1.7.1" "poethepoet" "coverage" --python python
+          pipx install realm==0.3.0 --python python
+          pipx install poetry==1.7.1 --python python
+          pipx install poethepoet --python python
+          pipx install coverage --python python
           poetry config --list
       - name: Install dependencies
         run: realm install

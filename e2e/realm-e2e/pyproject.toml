@@ -8,6 +8,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.8.1"
+realm = {path = "../../packages/realm"}
 
 
 [build-system]

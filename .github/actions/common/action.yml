@@ -1,0 +1,15 @@
+name: "Common"
+runs:
+  using: "composite"
+  steps:
+    - name: Install pipx
+      run: |
+        pip install --user pipx
+        pipx ensurepath
+    - name: Install global dependencies
+      run: |
+        pipx install poetry==1.7.1
+        pipx install poethepoet
+        pipx install realm==0.3.0
+        pipx install coverage
+        poetry config --list

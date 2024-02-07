@@ -49,17 +49,7 @@ jobs:
         run: |
           python3 -c "import sys; print('-'.join(str(v) for v in sys.version_info))" > ~/py-ver.txt
           echo version=$(cat ~/py-ver.txt) >> $GITHUB_OUTPUT
-      - name: Install pipx
-        run: |
-          pip install --user pipx
-          pipx ensurepath
-      - name: Install global dependencies
-        run: |
-          pipx install poetry==1.7.1
-          pipx install poethepoet
-          pipx install realm==0.3.0
-          pipx install coverage
-          poetry config --list
+      - uses: ./.github/actions/common
       - name: Install project dependencies
         run: realm install
       - name: Run tests

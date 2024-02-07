@@ -1,4 +1,4 @@
-name: E2E Tests
+name: e2e
 
 on:
   push: {}
@@ -26,10 +26,11 @@ jobs:
       - name: Install global dependencies
         run: |
           pipx install poetry==1.7.1
+          pipx install poethepoet
           pipx install realm==0.3.0
           pipx install coverage
           poetry config --list
       - name: Install project dependencies (without lockfile!)
         run: realm run --scope "*-e2e" -- poetry run pip install .
       - name: Run tests
-        run: realm task test
+        run: realm task test --scope "*-e2e"

@@ -1,0 +1,27 @@
+name: e2e
+
+on:
+  push: {}
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  e2e-test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [ '3.8', '3.9', '3.10', '3.11', '3.12' ]
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install global dependencies
+        uses: ./.github/actions/common
+      - name: Install project dependencies (without lockfile!)
+        run: realm run --scope "*-e2e" -- poetry run pip install .
+      - name: Run tests
+        run: realm task test --scope "*-e2e"

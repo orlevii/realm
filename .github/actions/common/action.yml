@@ -1,0 +1,17 @@
+name: "global dependencies"
+description: "Installs global dependencies"
+runs:
+  using: "composite"
+  steps:
+    - name: Install pipx
+      shell: bash
+      run: |
+        pip install --user pipx
+        pipx ensurepath
+    - name: Install global dependencies
+      shell: bash
+      run: |
+        pipx install poetry==1.7.1
+        pipx install poethepoet
+        pipx install realm==0.3.0
+        poetry config --list

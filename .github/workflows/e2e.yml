@@ -1,7 +1,7 @@
 name: e2e
 
 on:
-  #push: {}
+  push: {}
   schedule:
     - cron: "0 0 * * *"
 
@@ -19,17 +19,8 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install pipx
-        run: |
-          pip install --user pipx
-          pipx ensurepath
       - name: Install global dependencies
-        run: |
-          pipx install poetry==1.7.1
-          pipx install poethepoet
-          pipx install realm==0.3.0
-          pipx install coverage
-          poetry config --list
+        uses: ./.github/actions/common
       - name: Install project dependencies (without lockfile!)
         run: realm run --scope "*-e2e" -- poetry run pip install .
       - name: Run tests

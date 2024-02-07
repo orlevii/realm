@@ -49,12 +49,14 @@ jobs:
         run: |
           python3 -c "import sys; print('-'.join(str(v) for v in sys.version_info))" > ~/py-ver.txt
           echo version=$(cat ~/py-ver.txt) >> $GITHUB_OUTPUT
-      - uses: ./.github/actions/common
+      - name: Install global dependencies
+        uses: ./.github/actions/common
       - name: Install project dependencies
         run: realm install
       - name: Run tests
         run: realm task test
       - name: Coverage report
         run: |
+          pipx install coverage
           coverage combine ./*/**/.coverage || true
           coverage report || true

@@ -42,7 +42,6 @@ realm = 'realm.cli.application:cli'
 test.shell = 'pytest --cov=src --no-cov tests -v'
 lint.shell = "ruff ."
 format = [
-    { shell = "ruff . --fix" },
     { shell = "ruff format ." }
 ]
 

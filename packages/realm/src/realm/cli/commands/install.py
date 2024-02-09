@@ -3,8 +3,8 @@ import sys
 import click
 
 from realm.cli.realm_command import RealmCommand
-from realm.utils import await_all
 from realm.entities.project import Project
+from realm.utils import await_all
 
 
 class InstallCommand(RealmCommand[dict]):

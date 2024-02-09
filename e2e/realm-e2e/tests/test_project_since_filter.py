@@ -14,13 +14,15 @@ def test_since_empty(clean_repo):
     output = ChildProcess.run("realm ls --since main", cwd=clean_repo).strip()
     assert output == ""
 
+
 def test_since_empty_all_flag(clean_repo):
     cmd = "realm ls --since main --all"
     output = ChildProcess.run(cmd, cwd=clean_repo).strip()
-    
+
     all_cmd = "realm ls"
     expected = ChildProcess.run(all_cmd, cwd=clean_repo).strip()
     assert output == expected
+
 
 @pytest.mark.parametrize("package_name", ["pkg", "pkg_with_groups"])
 def test_changed_file(clean_repo, package_name: str):

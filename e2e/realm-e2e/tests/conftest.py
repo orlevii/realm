@@ -11,6 +11,8 @@ def temp_repo():
     ChildProcess.FORCE_CAPTURE = True
     with TemporaryDirectory("_realm") as tmp_dir:
         ChildProcess.run("git init", cwd=tmp_dir)
+        ChildProcess.run("git config user.email test@realm.com", cwd=tmp_dir)
+        ChildProcess.run("git config user.name Test", cwd=tmp_dir)
         shutil.copytree(str(PACKAGES_REPO_PATH), tmp_dir, dirs_exist_ok=True)
         ChildProcess.run("git add .", cwd=tmp_dir)
         ChildProcess.run("git commit -am 'first commit'", cwd=tmp_dir)

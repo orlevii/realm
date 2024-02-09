@@ -35,8 +35,9 @@ class BaseCommand(Generic[T]):
 
     @classmethod
     def to_command(cls):
-        def callback_fn(ctx, **kwargs):
-            cmd = cls(ctx=ctx.obj, **kwargs)
+        def callback_fn(**kwargs):
+            from realm.cli.app_context_creator import AppContextCreator
+            cmd = cls(AppContextCreator.init_context(), **kwargs)
             code = cmd.run()
             if code is not None:
                 sys.exit(code)
@@ -44,7 +45,7 @@ class BaseCommand(Generic[T]):
         return cls.CLICK_COMMAND_CLS(
             name=cls.NAME,
             params=cls.PARAMS,
-            callback=click.pass_context(callback_fn),
+            callback=callback_fn,
             help=_strip_indent(cls.HELP_MESSAGE),
             deprecated=cls.DEPRECATED,
         )

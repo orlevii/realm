@@ -2,7 +2,7 @@ import os
 
 import pytest
 from pytest_mock import MockFixture
-from realm.cli.application import Application
+from realm.cli.app_context_creator import AppContextCreator
 from realm.cli.commands.install import InstallCommand
 from realm.cli.commands.ls import LsCommand
 from realm.entities import Config, RealmContext
@@ -13,14 +13,14 @@ from tests.common import captured_output, get_tests_root_dir
 REPO_DIR = get_tests_root_dir().joinpath("fixtures/multiple_packages_with_tasks")
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="class")
 def config():
     return Config.from_file(realm_json_file=str(REPO_DIR.joinpath("realm.json")))
 
 
 @pytest.fixture
 def realm_context(config):
-    return RealmContext(config=config, projects=Application.get_projects(config))
+    return RealmContext(config=config, projects=AppContextCreator.get_projects(config))
 
 
 def test_scan(realm_context):

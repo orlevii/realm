@@ -10,6 +10,7 @@ jobs:
         with:
           fetch-depth: 0
       - run: git branch --track main origin/main
+        if: github.ref_name != 'main'
       - name: Set up Python 3.8
         uses: actions/setup-python@v3
         with:

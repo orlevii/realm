@@ -25,22 +25,26 @@ click = "^8.1.7"
 toml = "^0.10.2"
 poethepoet = { version = "<1.0.0", optional = true }
 colorama = "^0.4.6"
-setuptools = ">=60"
 
 [tool.poetry.extras]
 tasks = ['poethepoet']
 
 [tool.poetry.group.dev.dependencies]
-coverage = "^7.4.0"
 ruff = "^0.2.0"
+pytest = "^8.0.0"
+pytest-mock = "^3.12.0"
+pytest-cov = "^4.1.0"
 
 [tool.poetry.scripts]
 realm = 'realm.cli.application:cli'
 
 [tool.poe.tasks]
-test.shell = 'coverage run --source ./src -m unittest discover -s tests -v -p "test_*.py"'
-lint.shell = "ruff src tests"
-format.shell = "ruff format src tests"
+test.shell = 'pytest --cov=src --no-cov tests -v'
+lint.shell = "ruff ."
+format = [
+    { shell = "ruff . --fix" },
+    { shell = "ruff format ." }
+]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

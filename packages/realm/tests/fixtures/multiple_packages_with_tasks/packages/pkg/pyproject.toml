@@ -1,18 +1,20 @@
 [tool.poetry]
-name = "realm-e2e"
+name = "pkg"
 version = "0.1.0"
-description = "End-to-end tests for realm"
+description = ""
 authors = ["Or Levi <orlevi128@gmail.com>"]
-license = "MIT"
-readme = "README.md"
+
+[tool.realm.labels]
+type = "package" # used for filtering
 
 [tool.poetry.dependencies]
-python = "^3.8.1"
-realm = {path = "../../packages/realm", develop = true}
+python = "^3.6"
+
+[tool.poetry.dev-dependencies]
 
 [tool.poe.tasks]
 test.shell = 'python -m unittest discover -s tests -v -p "test_*.py"'
 
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"

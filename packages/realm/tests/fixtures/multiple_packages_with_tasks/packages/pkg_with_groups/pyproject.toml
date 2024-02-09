@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "pkg-with-groups"
+version = "0.1.0"
+description = ""
+authors = ["Or Levi <orlevi128@gmail.com>"]
+readme = "README.md"
+packages = [{ include = "pkg_with_groups", from = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[tool.poetry.group.docs.dependencies]
+sphinx = "^7.2.6"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

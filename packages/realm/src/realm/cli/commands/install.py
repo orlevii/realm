@@ -4,6 +4,7 @@ import click
 
 from realm.cli.realm_command import RealmCommand
 from realm.utils import await_all
+from realm.entities.project import Project
 
 
 class InstallCommand(RealmCommand[dict]):
@@ -20,7 +21,7 @@ class InstallCommand(RealmCommand[dict]):
         await_all(futures)
 
     @staticmethod
-    def _install(project):
+    def _install(project: Project):
         try:
             out = project.execute_cmd("poetry install")
             if out:

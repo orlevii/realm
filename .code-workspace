@@ -1,0 +1,19 @@
+{
+  "folders": [
+    {
+      // Repo root
+      "name": "Repository",
+      "path": "."
+    },
+    {
+      // Docs and release notes
+      "name": "realm",
+      "path": "packages/realm"
+    },
+    {
+      // Yeoman extension generator
+      "name": "realm-e2e",
+      "path": "e2e/realm-e2e"
+    }
+  ]
+}

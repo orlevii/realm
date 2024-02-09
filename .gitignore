@@ -5,6 +5,7 @@
 .coverage
 .python-version
 dist/
+.venv/
 venv/
 temp/
 tmp/

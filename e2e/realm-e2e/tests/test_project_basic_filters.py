@@ -39,3 +39,6 @@ def test_ls_with_match():
     cmd = "realm ls --match labels.type=package"
     output = run(cmd).strip()
     assert output == "pkg@0.1.0", cmd
+
+
+    

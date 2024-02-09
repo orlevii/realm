@@ -20,11 +20,11 @@ def test_ls():
 def test_ls_with_filters(filters: dict):
     cmd = "realm ls"
     for s in filters.get("scope", []):
-        cmd += f" --scope '{s}'"
+        cmd += f" --scope {s}"
     for s in filters.get("ignore", []):
-        cmd += f" --ignore '{s}'"
+        cmd += f" --ignore {s}"
 
-    output = run(cmd, shell=True).strip().split()
+    output = run(cmd).strip().split()
     assert set(output) == set(filters["expected"]), cmd
 
 

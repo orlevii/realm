@@ -60,4 +60,4 @@ jobs:
         run: |
           pipx install coverage
           coverage combine ./*/**/.coverage || true
-          coverage report || true
+          coverage report --skip-covered || true

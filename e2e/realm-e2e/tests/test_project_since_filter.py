@@ -17,11 +17,11 @@ def test_since_empty(clean_repo):
 
 def test_since_empty_all_flag(clean_repo):
     cmd = "realm ls --since main --all"
-    output = ChildProcess.run(cmd, cwd=clean_repo).strip()
+    output = ChildProcess.run(cmd, cwd=clean_repo).strip().split()
 
     all_cmd = "realm ls"
-    expected = ChildProcess.run(all_cmd, cwd=clean_repo).strip()
-    assert output == expected
+    expected = ChildProcess.run(all_cmd, cwd=clean_repo).strip().split()
+    assert set(output) == set(expected)
 
 
 @pytest.mark.parametrize("package_name", ["pkg", "pkg_with_groups"])

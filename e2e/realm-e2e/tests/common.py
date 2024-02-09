@@ -6,6 +6,7 @@ from realm.utils.child_process import ChildProcess
 fixtures_path = Path(__file__).parent.parent.joinpath("fixtures")
 
 PACKAGES_REPO = "packages_repo"
+PACKAGES_REPO_PATH = fixtures_path.joinpath(PACKAGES_REPO)
 
 
 def create_run_in_fixture_fn(fixutre_relative_path: str):

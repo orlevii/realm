@@ -18,10 +18,10 @@ class ChildProcess:
             command = shlex.split(command, posix=False)
         p = subprocess.Popen(command, **params)
         out, err = p.communicate()
-        if out and isinstance(out, bytes):
+        if isinstance(out, bytes):
             out = out.decode()
 
-        if err and isinstance(err, bytes):
+        if isinstance(err, bytes):
             err = err.decode()
 
         if p.returncode != 0:

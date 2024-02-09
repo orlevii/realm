@@ -13,7 +13,7 @@ from tests.common import captured_output, get_tests_root_dir
 REPO_DIR = get_tests_root_dir().joinpath("fixtures/multiple_packages_with_tasks")
 
 
-@pytest.fixture(scope="class")
+@pytest.fixture(scope="module")
 def config():
     return Config.from_file(realm_json_file=str(REPO_DIR.joinpath("realm.json")))
 

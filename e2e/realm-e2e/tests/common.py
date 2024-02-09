@@ -12,4 +12,5 @@ def create_run_in_fixture_fn(fixutre_relative_path: str):
     cwd = str(fixtures_path.joinpath(fixutre_relative_path))
     return partial(ChildProcess.run, cwd=cwd)
 
-run_in_root = create_run_in_fixture_fn('..')
+
+run_in_root = create_run_in_fixture_fn("..")

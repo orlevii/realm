@@ -77,78 +77,28 @@ def test_git_diff(realm_context, git_diff: dict, mocker: MockFixture):
     output = out.getvalue().strip()
     assert output == git_diff["expected"]
 
-# @pytest.mark.parametrize(
-#     "filters",
-#     [
-#         {"scope": "p*", "expected": ""}
-#     ],
-# )
-# def test_glob_star_filters(realm_context, filters):
-#     cmd = LsCommand(realm_context, scope=["p*"], ignore=["*with*"])
-#     with captured_output() as (out, _):
-#         cmd.run()
-#     output = out.getvalue().strip()
-#     assert output == "pkg@0.1.0"
+
+@pytest.mark.parametrize(
+    "filters",
+    [
+        {"scope": ["p*"], "expected": ["pkg@0.1.0", "pkg_with_groups@0.1.0"]},
+        {"scope": ["p*"], "ignore": ["*with*"], "expected": ["pkg@0.1.0"]},
+        {"scope": ["w*"], "expected": []},
+    ],
+)
+def test_glob_star_filters(realm_context, filters: dict):
+    cmd = LsCommand(
+        realm_context, scope=filters.get("scope"), ignore=filters.get("ignore")
+    )
+    with captured_output() as (out, _):
+        cmd.run()
+    output = out.getvalue().strip()
+    assert set(output.split()) == set(filters["expected"])
 
 
-# def test_task_install(realm_context):
-#     install_cmd = InstallCommand(realm_context)
-#     task_cmd = TaskCommand(realm_context, task_name="test")
-
-#     assert len(task_cmd.ctx.projects) == 1
-
-#     with captured_output(stderr=False) as (out, _):
-#         install_cmd.run()
-#         task_cmd.run()
-
-#     output = out.getvalue()
-#     assert "Installing the current project: pkg" in output
-#     assert 'Poe => python -m unittest discover -s tests -v -p "test_*.py"' in output
-
-
-# def test_git_diff(realm_context):
-#     cmd = LsCommand(realm_context, since=".")
-#     with captured_output() as (out, _):
-#         cmd.run()
-#     output = out.getvalue().strip()
-#     assert output == ""
-
-
-# def test_git_diff_with_change(realm_context):
-#     pkg_proj = next(p for p in realm_context.projects if p.name == "pkg")
-#     try:
-#         with pkg_proj.source_dir.joinpath("pyproject.toml").open("a") as f:
-#             print("", file=f)
-
-#         cmd = LsCommand(realm_context, since=".")
-
-#         with captured_output() as (out, _):
-#             cmd.run()
-#         output = out.getvalue().strip()
-#         assert output == "pkg@0.1.0"
-#     finally:
-#         ChildProcess.run(f"git checkout {pkg_proj.source_dir}")
-
-
-# def test_scope_filter(realm_context):
-#     cmd = LsCommand(realm_context, scope=["p*"], ignore=["*with*"])
-#     with captured_output() as (out, _):
-#         cmd.run()
-#     output = out.getvalue().strip()
-#     assert output == "pkg@0.1.0"
-
-
-# def test_ignore_filter(realm_context):
-#     cmd = LsCommand(realm_context, ignore=["p*"])
-#     with captured_output() as (out, _):
-#         cmd.run()
-#     output = out.getvalue().strip()
-#     assert output == ""
-
-
-# def test_match_filter(realm_context):
-#     cmd = LsCommand(realm_context, match=["labels.type=package"])
-#     with captured_output() as (out, _):
-#         cmd.run()
-#     output = out.getvalue().strip()
-#     assert output == "pkg@0.1.0"
+def test_match_filter(realm_context):
+    cmd = LsCommand(realm_context, match=["labels.type=package"])
+    with captured_output() as (out, _):
+        cmd.run()
+    output = out.getvalue().strip()
+    assert output == "pkg@0.1.0"

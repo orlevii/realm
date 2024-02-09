@@ -1,12 +1,13 @@
-import unittest
-
+import pytest
 from realm.utils.child_process import ChildProcess
+from realm.version import __version__
 
 
-class TestVersion(unittest.TestCase):
-    def setUp(self):
-        ChildProcess.FORCE_CAPTURE = True
+@pytest.fixture(scope="class")
+def init_child_process():
+    ChildProcess.FORCE_CAPTURE = True
 
-    def test_version(self):
-        out = ChildProcess.run("realm -V")
-        self.assertIn("Realm", out)
+
+def test_version():
+    out = ChildProcess.run("realm -V").strip()
+    assert out == f"Realm {__version__}"

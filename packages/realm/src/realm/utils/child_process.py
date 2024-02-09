@@ -19,10 +19,10 @@ class ChildProcess:
         p = subprocess.Popen(command, **params)
         out, err = p.communicate()
         if isinstance(out, bytes):
-            out = out.decode('utf-8', 'ignore')
+            out = out.decode("utf-8", "ignore")
 
         if isinstance(err, bytes):
-            err = err.decode('utf-8', 'ignore')
+            err = err.decode("utf-8", "ignore")
 
         if p.returncode != 0:
             raise RuntimeError(

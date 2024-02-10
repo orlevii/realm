@@ -1,6 +1,7 @@
 {
   "projects": [
     "packages/*",
-    "e2e/*"
+    "e2e/*",
+    "docs"
   ]
 }

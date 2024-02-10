@@ -1,0 +1,38 @@
+name: build
+
+on: 
+  push:
+    branches:
+      - main
+      - docs
+
+
+jobs:
+  
+  docs:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./docs
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          sparse-checkout: |
+            docs
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Install global dependencies
+        uses: ./.github/actions/common
+      - name: Install project dependencies
+        run: poetry install
+      - name: build docs
+        run: poetry run mkdocs build        
+      - name: Upload to GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4

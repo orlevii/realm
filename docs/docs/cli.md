@@ -1,14 +1,14 @@
-# Commands
+# Cli Reference
 
 ## Global Options
 
 Realm commands can accept the following global options:
 
-- **--since**: Includes only projects affected by a change since the specified reference.
-- **--all**: Includes all projects if no projects were changed when using the --since filter.
-- **--scope**: Includes only projects that match the given wilcard pattern.
-- **--ignore**: Filters out projects that match the given wildcard pattern.
-- **--match**: Filters by a field specified in `pyproject.toml`.
+- `--since`: Includes only projects affected by a change since the specified reference.
+- `--all`: Includes all projects if no projects were changed when using the --since filter.
+- `--scope`: Includes only projects that match the given wilcard pattern.
+- `--ignore`: Filters out projects that match the given wildcard pattern.
+- `--match`: Filters by a field specified in `pyproject.toml`.
 
 ## cli
 
@@ -28,7 +28,7 @@ Lists all projects managed by `realm`.
 
 **Options:**
 
-* **--paths** - Prints relative paths of the projects.
+* `--paths`: Prints relative paths of the projects.
 
 ### run
 

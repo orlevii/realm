@@ -60,48 +60,58 @@ realm task test
 
 ## Filtering
 
-In most cases, you wouldn't like to build/test or do anything on the entire repository, realm allows filtering to make sure you run your commands only on what's needed.
+When working with a large repository, you may want to focus on specific parts rather than applying commands to the entire project. Realm offers filtering options to help you do just that.
 
 ### since
 
-For example, if we would like to run tests only on affected projects by our changes, we could do
+For instance, if you only want to run tests on projects affected by recent changes, you can use:
+
 ```bash
 realm task test --since main
 ```
 
-This command will filter only affected projects by our changes and run the `test` task defined in each `pyproject.toml` of the affected projects.
+This command runs the `test` task only on projects affected by recent changes
 
 ### scope
-Allows filtering by wildcard
+
+You can use wildcards to filter projects:
 
 ```bash
 realm ls --scope "r*"
 ```
-Will output only projects that start with the letter `r`.
 
-In windows, The CLI will also accept `^` as the `*` because of the way wildcards are resoved there.
+This command displays projects that start with the letter 'r'.
+
+In Windows, you can also use '^' instead of '*' due to how wildcards are handled:
+
 ```powershell
 realm ls --scope "r^"
 ```
 
+
 ### ignore
-Same as `--scope`, but will filter out.
+
+Similar to '--scope', but excludes projects:
+
 ```bash
 realm ls --ignore "r*"
 ```
-Will output only projects that **DO NOT** start with the letter `r`.
+
+This command shows projects that do not start with the letter 'r'.
 
 ### match
-With this filter, you can filter by ANY field specified in the `pyproject.toml`
 
-You can also define for example:
+This filter allows you to specify any field from the 'pyproject.toml' file.
+
+For example, if you define:
 
 ```toml
 [tool.realm.labels]
 my_field = "my_value"
 ```
 
-And then run:
+To match that project, you can then run:
+
 ```bash
 realm ls --match labels.my_field=my_value
 ```

@@ -10,7 +10,7 @@ from realm.utils.child_process import ChildProcess
 
 from tests.common import captured_output, get_tests_root_dir
 
-REPO_DIR = get_tests_root_dir().joinpath("fixtures/multiple_packages_with_tasks")
+REPO_DIR = get_tests_root_dir().joinpath("fixtures/test_workspace")
 
 
 @pytest.fixture(scope="module")

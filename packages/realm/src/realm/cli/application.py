@@ -62,7 +62,7 @@ class Application:
             GlobalOption(
                 ["--scope"],
                 type=click.STRING,
-                help="Includes only projects that match the given wilcard pattern",
+                help="Includes only projects that match the given wildcard pattern",
                 multiple=True,
             ),
             GlobalOption(

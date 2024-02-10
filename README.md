@@ -1,4 +1,4 @@
-# Realm: Simplifying Multi-Project Python Build Tool
+# Realm: Multi-Project Python Build Tool
 
 ## Introduction
 **realm** is a CLI tool written in Python aimed at simplifying the development and maintenance of multiple Python projects within the same repository with a particular focus on projects structured using Poetry.

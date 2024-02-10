@@ -10,19 +10,17 @@ Realm commands can accept the following global options:
 - `--ignore`: Filters out projects that match the given wildcard pattern.
 - `--match`: Filters by a field specified in `pyproject.toml`.
 
-## cli
-
-### init
+## init
 
 Initializes a new `realm` repository.
 
 This command will create a `realm.json` and an empty directory structure for projects.
 
-### install
+## install
 
 Executes `poetry install` on all projects.
 
-### ls
+## ls
 
 Lists all projects managed by `realm`.
 
@@ -30,7 +28,7 @@ Lists all projects managed by `realm`.
 
 * `--paths`: Prints relative paths of the projects.
 
-### run
+## run
 
 Executes a command on all projects.
 
@@ -40,7 +38,7 @@ realm run -- pwd
 ```
 This command will execute `pwd` from each project.
 
-### task
+## task
 
 Runs a task on projects containing that task (requires `poethepoet`).
 

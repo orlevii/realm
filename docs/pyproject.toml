@@ -10,7 +10,11 @@ readme = "README.md"
 python = "~3.10"
 mkdocs = "^1.5.3"
 mkdocs-material = "^9.5.9"
+mkdocs-awesome-pages-plugin = "^2.9.2"
 
+[tool.poe.tasks]
+build = "mkdocs build"
+serve = "mkdocs serve"
 
 [build-system]
 requires = ["poetry-core"]

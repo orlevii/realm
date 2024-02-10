@@ -5,6 +5,10 @@ theme:
   features:
     - content.code.copy
 
+plugins:
+    - search
+    - awesome-pages
+
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true

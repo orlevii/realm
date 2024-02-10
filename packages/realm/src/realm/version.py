@@ -1,8 +1,10 @@
 def __get_runtime_version():
-    from pkg_resources import get_distribution
+    import importlib.metadata
 
-    realm = get_distribution("realm")
-    return realm.version
+    try:
+        return importlib.metadata.version("realm")
+    except importlib.metadata.PackageNotFoundError:
+        return None
 
 
 __version__ = __get_runtime_version()

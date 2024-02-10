@@ -1,7 +1,10 @@
 import fnmatch
+import platform
 from typing import List
 
 from realm.entities import RealmContext
+
+IS_WINDOWS = any(platform.win32_ver())
 
 
 class ScopeFilter:
@@ -12,6 +15,8 @@ class ScopeFilter:
 
         filtered = []
         for scope in scopes:
+            if IS_WINDOWS:
+                scope = scope.replace("^", "*")
             f = {p for p in ctx.projects if fnmatch.fnmatch(p.name, scope)}
             filtered.append(f)
 

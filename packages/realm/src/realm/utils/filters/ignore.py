@@ -1,7 +1,10 @@
 import fnmatch
+import platform
 from typing import List
 
 from realm.entities import RealmContext
+
+IS_WINDOWS = any(platform.win32_ver())
 
 
 class IgnoreFilter:
@@ -12,6 +15,8 @@ class IgnoreFilter:
 
         filtered = []
         for ignore in ignores:
+            if IS_WINDOWS:
+                ignore = ignore.replace("^", "*")
             f = {p for p in ctx.projects if not fnmatch.fnmatch(p.name, ignore)}
             filtered.append(f)
 

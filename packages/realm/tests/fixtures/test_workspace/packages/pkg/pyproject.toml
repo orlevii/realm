@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "pkg"
+version = "0.1.0"
+description = ""
+authors = ["Or Levi <orlevi128@gmail.com>"]
+
+[tool.realm.labels]
+type = "package" # used for filtering
+
+[tool.poetry.dependencies]
+python = "^3.6"
+
+[tool.poetry.dev-dependencies]
+
+[tool.poe.tasks]
+test.shell = 'python -m unittest discover -s tests -v -p "test_*.py"'
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

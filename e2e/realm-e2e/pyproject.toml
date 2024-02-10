@@ -8,10 +8,20 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.8.1"
-realm = { path = "../../packages/realm" }
+realm = { path = "../../packages/realm", develop = true }
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.2.1"
+pytest = "^8.0.0"
+pytest-mock = "^3.12.0"
+pytest-cov = "^4.1.0"
 
 [tool.poe.tasks]
-test.shell = 'python -m unittest discover -s tests -v -p "test_*.py"'
+test.shell = 'pytest --cov=../../packages/realm/src --cov=tests tests -v'
+lint.shell = "ruff ."
+format = [
+    { shell = "ruff format ." }
+]
 
 [build-system]
 requires = ["poetry-core"]

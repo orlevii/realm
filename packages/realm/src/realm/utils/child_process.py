@@ -18,11 +18,11 @@ class ChildProcess:
             command = shlex.split(command, posix=False)
         p = subprocess.Popen(command, **params)
         out, err = p.communicate()
-        if out and isinstance(out, bytes):
-            out = out.decode()
+        if isinstance(out, bytes):
+            out = out.decode("utf-8", "ignore")
 
-        if err and isinstance(err, bytes):
-            err = err.decode()
+        if isinstance(err, bytes):
+            err = err.decode("utf-8", "ignore")
 
         if p.returncode != 0:
             raise RuntimeError(

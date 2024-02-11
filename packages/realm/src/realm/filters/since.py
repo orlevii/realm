@@ -12,17 +12,15 @@ class SinceFilter:
             return
 
         changed_projects = cls.get_changed_projects(ctx, since)
-        affected = set(changed_projects)
-        prev_len = 0
-        new_len = len(affected)
-        while prev_len != new_len:
-            prev_len = new_len
-            affected_cpy = set(affected)
-            for p in affected:
-                p_dependent = ctx.dependency_graph.projects_affected[p]
-                affected_cpy = affected_cpy.union(p_dependent)
-            affected = affected_cpy
-            new_len = len(affected)
+        affected = set()
+        nodes = list(changed_projects)
+
+        while any(nodes):
+            proj = nodes.pop()
+            if proj not in affected:
+                affected.add(proj)
+                proj_affected = ctx.dependency_graph.projects_affected[proj]
+                nodes.extend(proj_affected)
 
         ctx.projects = affected
 

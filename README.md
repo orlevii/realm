@@ -23,15 +23,8 @@ To install `realm`, it's recommened to install in an islolated environment using
 pipx install realm
 ```
 
-## Usage
-
-- **realm init:** Initializes a new `realm` repository.
-- **realm install:** Executes `poetry install` on all projects.
-- **realm ls:** Lists all projects managed by `realm`.
-- **realm run:** Executes a command on all projects.
-- **realm task:** Runs a `poetry` task on projects containing that task (requires `poethepoet`).
-
-For more information on available commands and usage, refer to the [documentation](https://link-to-docs).
+## Documentation
+For more information on available commands and usage, refer to the [documentation](https://orlevii.github.io/realm/).
 
 ## Contribution
 Contributions to `realm` are welcome! If you encounter any issues or have suggestions for improvements, please open an issue.

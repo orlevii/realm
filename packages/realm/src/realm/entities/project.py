@@ -1,4 +1,5 @@
 import os
+from functools import cached_property
 from pathlib import Path
 
 import toml
@@ -34,7 +35,7 @@ class Project:
             return current
         return None
 
-    @property
+    @cached_property
     def dependencies(self):
         tool_poetry = self.pyproject["tool"]["poetry"]
         all_dependencies = {}

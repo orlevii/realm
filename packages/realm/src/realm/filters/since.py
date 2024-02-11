@@ -1,7 +1,7 @@
 import os
 from typing import List
 
-from realm.entities import Project, RealmContext
+from realm.entities import RealmContext
 from realm.utils.child_process import ChildProcess
 
 
@@ -12,37 +12,15 @@ class SinceFilter:
             return
 
         changed_projects = cls.get_changed_projects(ctx, since)
-        dependent = set()
-        for proj in ctx.projects:
-            if cls.is_project_affect_by_change(proj, changed_projects):
-                dependent.add(proj)
+        affected = set(changed_projects)
+        new_affected = set()
+        while affected != new_affected:
+            new_affected = set(affected)
+            for p in affected:
+                p_dependent = ctx.dependency_graph.projects_affected[p]
+                new_affected = new_affected.union(p_dependent)
 
-        dependent = dependent.union(changed_projects)
-
-        ctx.projects = dependent
-
-    @classmethod
-    def is_project_affect_by_change(cls, project, changed_projects):
-        changed_dependencies = [
-            p for p in changed_projects if cls.is_dependent(project, p)
-        ]
-        return any(changed_dependencies)
-
-    @classmethod
-    def is_dependent(cls, project: Project, changed_project: Project):
-        dependency = project.dependencies.get(changed_project.package_name)
-        if dependency is None:
-            return False
-        if not isinstance(dependency, dict):
-            # Path dependency is a dict
-            return False
-        dependency_path = dependency.get("path")
-        if dependency_path is None:
-            return False
-        return (
-            project.source_dir.joinpath(dependency_path).resolve()
-            == changed_project.source_dir
-        )
+        ctx.projects = affected
 
     @classmethod
     def get_changed_projects(cls, ctx: RealmContext, since):

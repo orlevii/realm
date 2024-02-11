@@ -3,10 +3,10 @@ from abc import ABC
 from concurrent.futures import ThreadPoolExecutor
 
 from realm.entities import RealmContext
-from realm.utils.filters.ignore import IgnoreFilter
-from realm.utils.filters.match import MatchFilter
-from realm.utils.filters.scope import ScopeFilter
-from realm.utils.filters.since import SinceFilter
+from realm.filters.ignore import IgnoreFilter
+from realm.filters.match import MatchFilter
+from realm.filters.scope import ScopeFilter
+from realm.filters.since import SinceFilter
 
 from .core.base_command import BaseCommand, T
 from .realm_click_types import RealmClickCommand

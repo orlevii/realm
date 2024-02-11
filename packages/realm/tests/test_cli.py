@@ -2,30 +2,16 @@ import os
 
 import pytest
 from pytest_mock import MockFixture
-from realm.cli.application import Application
 from realm.cli.commands.install import InstallCommand
 from realm.cli.commands.ls import LsCommand
-from realm.entities import Config, RealmContext
 from realm.utils.child_process import ChildProcess
 
-from tests.common import captured_output, get_tests_root_dir
-
-REPO_DIR = get_tests_root_dir().joinpath("fixtures/test_workspace")
-
-
-@pytest.fixture(scope="module")
-def config():
-    return Config.from_file(realm_json_file=str(REPO_DIR.joinpath("realm.json")))
-
-
-@pytest.fixture
-def realm_context(config):
-    return RealmContext(config=config, projects=Application.get_projects(config))
+from tests.common import captured_output
 
 
 def test_scan(realm_context):
     found = len(realm_context.projects)
-    assert found == 2
+    assert found == 5
 
 
 @pytest.mark.parametrize("options", [{"paths": False}, {"paths": True}])
@@ -48,16 +34,27 @@ def test_task_install(realm_context, mocker: MockFixture):
 
     for call_args in run_patch.call_args_list:
         assert call_args[0][0].startswith("poetry install")
-    assert run_patch.call_count == 2
+    assert run_patch.call_count == 5
 
 
 @pytest.mark.parametrize(
     "git_diff",
     [
-        {"diff": "", "expected": ""},
-        {"diff": "README.md", "expected": ""},
-        {"diff": "packages/pkg/file", "expected": "pkg@0.1.0"},
-        {"diff": "packages/pkg_with_groups/file", "expected": "pkg_with_groups@0.1.0"},
+        # No affected
+        {"diff": "", "expected": set()},
+        {"diff": "README.md", "expected": set()},
+        {"diff": "packages/pkg/file", "expected": {"pkg@0.1.0"}},
+        {
+            "diff": "packages/pkg_with_groups/file",
+            "expected": {"pkg_with_groups@0.1.0"},
+        },
+        {"diff": "packages/dep_a/file", "expected": {"dep_a@0.1.0"}},
+        # Affected
+        {"diff": "packages/dep_b/file", "expected": {"dep_b@0.1.0", "dep_a@0.1.0"}},
+        {
+            "diff": "packages/dep_c/file",
+            "expected": {"dep_c@0.1.0", "dep_b@0.1.0", "dep_a@0.1.0"},
+        },
     ],
 )
 def test_git_diff(realm_context, git_diff: dict, mocker: MockFixture):
@@ -74,8 +71,8 @@ def test_git_diff(realm_context, git_diff: dict, mocker: MockFixture):
 
     with captured_output() as (out, _):
         cmd.run()
-    output = out.getvalue().strip()
-    assert output == git_diff["expected"]
+    output = out.getvalue().strip().split()
+    assert set(output) == git_diff["expected"]
 
 
 @pytest.mark.parametrize(

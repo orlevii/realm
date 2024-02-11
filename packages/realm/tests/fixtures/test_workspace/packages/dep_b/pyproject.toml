@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "dep-b"
+version = "0.1.0"
+description = ""
+authors = ["Or Levi <orlevi128@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.group.test.dependencies]
+dep-c = { path = "../dep_c", develop = true }
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,6 +1,7 @@
 name: e2e
 
 on:
+  push: {}
   schedule:
     - cron: "0 0 * * *"
 
@@ -21,6 +22,8 @@ jobs:
       - name: Install global dependencies
         uses: ./.github/actions/common
       - name: Install project dependencies (without lockfile!)
-        run: realm run --scope "*-e2e" -- poetry run pip install .
+        run: |
+          realm run --scope "*-e2e" -- poetry install --only dev
+          realm run --scope "*-e2e" -- poetry run pip install .
       - name: Run tests
         run: realm task test --scope "*-e2e"

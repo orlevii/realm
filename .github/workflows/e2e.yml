@@ -21,6 +21,9 @@ jobs:
       - name: Install global dependencies
         uses: ./.github/actions/common
       - name: Install project dependencies (without lockfile!)
-        run: realm run --scope "*-e2e" -- poetry run pip install .
+        run: |
+          realm run --scope "*-e2e" -- poetry install --only dev
+          realm run --scope "*-e2e" -- poetry run pip install .
+          realm run --scope "*-e2e" -- poetry install --only-root
       - name: Run tests
         run: realm task test --scope "*-e2e"

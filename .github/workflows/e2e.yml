@@ -25,5 +25,6 @@ jobs:
         run: |
           realm run --scope "*-e2e" -- poetry install --only dev
           realm run --scope "*-e2e" -- poetry run pip install .
+          realm run --scope "*-e2e" -- poetry install --only-root
       - name: Run tests
         run: realm task test --scope "*-e2e"

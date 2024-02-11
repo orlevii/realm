@@ -52,23 +52,23 @@ class Application:
             ),
             GlobalOption(
                 ["--since"],
-                help="Includes only projects changed since the specified ref",
+                help="Includes only projects affected by a change since the specified reference",
             ),
             GlobalOption(
                 ["--all"],
                 is_flag=True,
-                help="Include all projects if no projects were changed when using the --since filter",
+                help="Includes all projects if no projects were changed when using the --since filter",
             ),
             GlobalOption(
                 ["--scope"],
                 type=click.STRING,
-                help="Includes only projects that match the given pattern",
+                help="Includes only projects that match the given wildcard pattern",
                 multiple=True,
             ),
             GlobalOption(
                 ["--ignore"],
                 type=click.STRING,
-                help="Filters out projects that match the given pattern",
+                help="Filters out projects that match the given wildcard pattern",
                 multiple=True,
             ),
             GlobalOption(

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "realm"
-version = "0.3.1.dev1"
+version = "0.4.0.dev1"
 description = "A tool for managing python poetry projects"
 authors = ["Or Levi <orlevi128@gmail.com>"]
 license = "MIT"
@@ -42,7 +42,8 @@ realm = 'realm.cli.application:cli'
 test.shell = 'pytest --cov=src --cov=tests tests -v'
 lint.shell = "ruff ."
 format = [
-    { shell = "ruff format ." }
+    { shell = "ruff format ." },
+    { shell = "ruff . --fix" }
 ]
 
 [build-system]

@@ -15,6 +15,7 @@ from .commands.install import InstallCommand
 from .commands.ls import LsCommand
 from .commands.run import RunCommand
 from .commands.task import TaskCommand
+from .commands.build import BuildCommand
 from .core.params import GlobalOption
 from .realm_click_types import RealmClickGroup
 
@@ -31,6 +32,7 @@ class Application:
         grp.add_command(RunCommand)
         grp.add_command(InstallCommand)
         grp.add_command(TaskCommand)
+        grp.add_command(BuildCommand)
 
         return grp
 

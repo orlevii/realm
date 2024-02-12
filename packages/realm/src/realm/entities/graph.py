@@ -22,10 +22,10 @@ class Graph:
         proj_a: Project
         proj_b: Project
         for proj_a, proj_b in combinations(projects, 2):
-            if cls.is_dependent(proj_a, proj_b):
+            if proj_a.is_dependent_on(proj_b):
                 project_deps[proj_a].add(proj_b)
                 projects_affected[proj_b].add(proj_a)
-            elif cls.is_dependent(proj_b, proj_a):
+            elif proj_b.is_dependent_on(proj_a):
                 project_deps[proj_b].add(proj_a)
                 projects_affected[proj_a].add(proj_b)
 
@@ -45,19 +45,3 @@ class Graph:
                     project_deps.pop(proj)
             res.append(new)
         return res[1:]
-
-    @classmethod
-    def is_dependent(cls, source_proj: Project, target_proj: Project) -> bool:
-        dependency = source_proj.dependencies.get(target_proj.package_name)
-        if dependency is None:
-            return False
-        if not isinstance(dependency, dict):
-            # Path dependency is a dict
-            return False
-        dependency_path = dependency.get("path")
-        if dependency_path is None:
-            return False
-        return (
-            source_proj.source_dir.joinpath(dependency_path).resolve()
-            == target_proj.source_dir
-        )

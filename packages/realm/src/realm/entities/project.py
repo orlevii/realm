@@ -15,8 +15,8 @@ class Project:
         self.name = os.path.basename(source_dir)
         self.relative_path = source_dir[len(root_dir) :].lstrip(os.sep)
 
-        toml_path = str(self.source_dir.joinpath(PYPROJECT_FILE))
-        self.pyproject = toml.load(toml_path)
+        self.pyproject_toml_path = self.source_dir.joinpath(PYPROJECT_FILE)
+        self.pyproject = toml.load(self.pyproject_toml_path)
 
     @property
     def version(self) -> str:
@@ -68,6 +68,21 @@ class Project:
         except RuntimeError as e:
             msg = f"{e!s}\nproject: {os.path.basename(self.source_dir)}"
             raise RuntimeError(msg) from e
+
+    def is_dependent_on(self, other: "Project") -> bool:
+        dependency = self.dependencies.get(other.package_name)
+        return self.is_dependency(other, dependency)
+
+    def is_dependency(self, other: "Project", dependency: dict) -> bool:
+        if dependency is None:
+            return False
+        if not isinstance(dependency, dict):
+            # Path dependency is a dict
+            return False
+        dependency_path = dependency.get("path")
+        if dependency_path is None:
+            return False
+        return self.source_dir.joinpath(dependency_path).resolve() == other.source_dir
 
     def __repr__(self):
         return self.package_name

@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "dep-c"
+version = "0.3.0"
+description = ""
+authors = ["Or Levi <orlevi128@gmail.com>"]
+readme = "README.md"
+packages = [{ include = "dep_c", from = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

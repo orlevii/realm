@@ -27,6 +27,7 @@ jobs:
       - name: Install global dependencies
         uses: ./.github/actions/common
       - name: Install pypiserver
+        if: matrix.python-version == '3.12'
         run: pipx install pypiserver[passlib] --python python3.10
       - name: Install project dependencies (without lockfile!)
         run: |

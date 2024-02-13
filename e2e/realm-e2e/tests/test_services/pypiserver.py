@@ -1,5 +1,6 @@
 import shutil
 import subprocess
+import sys
 import urllib.request
 from pathlib import Path
 from time import sleep
@@ -34,20 +35,23 @@ class PypiServer:
     def start(self):
         self.tempfolder.mkdir(parents=True, exist_ok=True)
         self.htpasswd.write_text("admin:admin")
+        print(f'pypi_server_cmd={self.cmd}', file=sys.stderr)
         self.process = subprocess.Popen(self.cmd)
         self._connect()
         return self
 
     def _connect(self):
         retries = 10
-        while retries > 0:
+        while True:
             retries -= 1
             try:
                 res = urllib.request.urlopen(self.get_url())
                 if res.status == 200:
                     return
                 raise Exception()
-            except Exception as _:
+            except Exception:
+                if retries <= 0:
+                    raise
                 sleep(1)
 
     def get_url(self):

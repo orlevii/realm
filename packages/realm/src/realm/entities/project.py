@@ -82,6 +82,7 @@ class Project:
         dependency_path = dependency.get("path")
         if dependency_path is None:
             return False
+        dependency_path = dependency_path.replace("/", os.sep)
         return self.source_dir.joinpath(dependency_path).resolve() == other.source_dir
 
     def __repr__(self):

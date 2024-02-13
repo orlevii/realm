@@ -29,10 +29,10 @@ jobs:
       - name: Install pypiserver
         if: matrix.python-version == '3.12'
         run: pipx install pypiserver[passlib] --python python3.10
-      - name: Install project dependencies (without lockfile!)
+      - name: Install project dependencies
         run: |
-          realm run --scope "*-e2e" -- poetry install --only dev
-          realm run --scope "*-e2e" -- poetry run pip install .
+          realm install --scope "*-e2e"
+          realm run --scope "*-e2e" -- poetry run pip install -U --force-reinstall .
           realm run --scope "*-e2e" -- poetry install --only-root
       - name: Run tests
         run: realm task test --scope "*-e2e"

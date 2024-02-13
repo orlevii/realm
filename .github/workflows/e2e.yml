@@ -20,14 +20,14 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Set up Python 3.8
-        if: matrix.python-version != '3.8'
+        if: matrix.python-version == '3.12'
         uses: actions/setup-python@v5
         with:
           python-version: "3.8"
       - name: Install global dependencies
         uses: ./.github/actions/common
       - name: Install pypiserver
-        #if: matrix.python-version == '3.12'
+        if: matrix.python-version == '3.12'
         run: |
           pipx install pypiserver[passlib] --python python3.8
           pipx runpip pypiserver show setuptools || true

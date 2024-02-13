@@ -53,7 +53,7 @@ jobs:
       - name: Install global dependencies
         uses: ./.github/actions/common
       - name: Install project dependencies
-        run: realm install
+        run: realm install --ignore "*-e2e"
       - name: Run tests
         run: realm task test
       - name: Coverage report

@@ -27,7 +27,7 @@ class BuildCommand(RealmCommand[dict]):
             await_all(futures)
 
     def _build(self, project: Project):
-        bak_file = project.pyproject_toml_path.with_stem("_bak_realm_pyproject")
+        bak_file = project.pyproject_toml_path.with_name("_bak_realm_pyproject.toml")
 
         try:
             self._prep_build(project, bak_file)

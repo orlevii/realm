@@ -55,7 +55,7 @@ jobs:
       - name: Install project dependencies
         run: realm install --ignore "*-e2e"
       - name: Run tests
-        run: realm task test
+        run: realm task test --ignore "*-e2e"
       - name: Coverage report
         run: |
           pipx install coverage

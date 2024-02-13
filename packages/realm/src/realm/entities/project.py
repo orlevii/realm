@@ -84,13 +84,13 @@ class Project:
         if dependency_path is None:
             return False
         dependency_path = dependency_path.replace("/", os.sep)
-        resolved_dep_path = self.source_dir.joinpath(dependency_path).resolve()
+        resolved_dep_path = self.source_dir.joinpath(dependency_path).resolve().absolute()
         logger.debug(
             f"Checking if {self} is dependent on {other} with path {dependency_path}"
         )
 
-        eq = resolved_dep_path == other.source_dir
-        logger.debug(f"Resolved path: {resolved_dep_path} == {other.source_dir}? {eq}")
+        eq = resolved_dep_path == other.source_dir.resolve().absolute()
+        logger.debug(f"Resolved path: {resolved_dep_path} == {other.source_dir.resolve().absolute()}? {eq}")
         return eq
 
     def __repr__(self):

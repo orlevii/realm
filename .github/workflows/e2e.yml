@@ -27,15 +27,13 @@ jobs:
       - name: Install global dependencies
         uses: ./.github/actions/common
       - name: Install pypiserver
-        if: matrix.python-version == '3.12'
+        #if: matrix.python-version == '3.12'
         run: pipx install pypiserver[passlib] --python python3.10
       - name: Install project dependencies
         run: |
+          realm run --scope "*-e2e" -- poetry env use ${{ matrix.python-version }}
           realm install --scope "*-e2e"
           realm run --scope "*-e2e" -- poetry run pip install -U --force-reinstall .
           realm run --scope "*-e2e" -- poetry install --only-root
-      - name: Install pypiserver
-        if: matrix.python-version != '3.12'
-        run: realm run --scope "*-e2e" -- poetry run pip install pypiserver
       - name: Run tests
         run: realm task test --scope "*-e2e"

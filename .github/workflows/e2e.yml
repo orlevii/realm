@@ -33,6 +33,10 @@ jobs:
         run: |
           realm install --scope "*-e2e"
           realm run --scope "*-e2e" -- poetry run pip install -U --force-reinstall .
+          realm run --scope "*-e2e" -- poetry run pip install pypiserver
           realm run --scope "*-e2e" -- poetry install --only-root
+      - name: Install pypiserver
+        if: matrix.python-version != '3.12'
+        run: realm run --scope "*-e2e" -- poetry run pip install pypiserver
       - name: Run tests
         run: realm task test --scope "*-e2e"

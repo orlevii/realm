@@ -30,7 +30,7 @@ jobs:
         #if: matrix.python-version == '3.12'
         run: |
           pipx install pypiserver[passlib] --python python3.8
-          pipx runpip pypiserver show setuptools
+          pipx runpip pypiserver show setuptools || true
           pipx inject pypiserver setuptools==68.2.0
       - name: Install project dependencies
         run: |

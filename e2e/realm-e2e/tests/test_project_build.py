@@ -1,5 +1,4 @@
 import pytest
-
 from realm.utils.child_process import ChildProcess
 from tests.containers.pypiserver import PypiServer
 
@@ -20,4 +19,3 @@ def test_simple_publish(clean_repo, pypi_server):
         "realm run --scope pkg -- poetry publish -r pypi-local -u admin -p admin",
         cwd=clean_repo,
     )
-    pass

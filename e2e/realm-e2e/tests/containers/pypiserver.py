@@ -1,10 +1,7 @@
-import logging
 import urllib.request
 
 from testcontainers.core.container import DockerContainer
 from testcontainers.core.waiting_utils import wait_container_is_ready
-
-logging.getLogger('testcontainers').setLevel(logging.ERROR)
 
 
 class PypiServer(DockerContainer):
@@ -36,4 +33,4 @@ class PypiServer(DockerContainer):
     def get_url(self):
         host = self.get_container_host_ip()
         port = self.get_exposed_port(self.port_to_expose)
-        return "http://{}:{}".format(host, port)
+        return f"http://{host}:{port}"

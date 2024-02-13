@@ -10,12 +10,12 @@ import click
 from realm.entities import Config, Project, RealmContext
 from realm.version import __version__
 
+from .commands.build import BuildCommand
 from .commands.init import InitCommand
 from .commands.install import InstallCommand
 from .commands.ls import LsCommand
 from .commands.run import RunCommand
 from .commands.task import TaskCommand
-from .commands.build import BuildCommand
 from .core.params import GlobalOption
 from .realm_click_types import RealmClickGroup
 

@@ -32,7 +32,7 @@ class Graph:
         return project_deps, projects_affected
 
     @classmethod
-    def _build_topology(cls, project_deps: ProjectDependencies) -> List[List[Project]]:
+    def _build_topology(cls, project_deps: ProjectDependencies) -> List[Set[Project]]:
         project_deps = dict(project_deps)
         res = [set()]
         seen_deps = set()

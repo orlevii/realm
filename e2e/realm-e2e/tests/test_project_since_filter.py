@@ -65,6 +65,6 @@ def test_changed_file_affected(clean_repo, changes: dict):
             f.write("\n")
         ChildProcess.run("git commit -am 'change'", cwd=clean_repo)
         output = set(
-            ChildProcess.run("realm ls --since main", cwd=clean_repo).strip().split()
+            ChildProcess.run("realm -vvv ls --since main", cwd=clean_repo).strip().split()
         )
         assert output == expected

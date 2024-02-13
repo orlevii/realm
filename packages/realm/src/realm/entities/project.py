@@ -4,6 +4,7 @@ from pathlib import Path
 
 import toml
 
+from realm.log import logger
 from realm.utils.child_process import ChildProcess
 
 PYPROJECT_FILE = "pyproject.toml"
@@ -83,7 +84,14 @@ class Project:
         if dependency_path is None:
             return False
         dependency_path = dependency_path.replace("/", os.sep)
-        return self.source_dir.joinpath(dependency_path).resolve() == other.source_dir
+        resolved_dep_path = self.source_dir.joinpath(dependency_path).resolve()
+        logger.debug(
+            f"Checking if {self} is dependent on {other} with path {dependency_path}"
+        )
+
+        eq = resolved_dep_path == other.source_dir
+        logger.debug(f"Resolved path: {resolved_dep_path} == {other.source_dir}? {eq}")
+        return eq
 
     def __repr__(self):
         return self.package_name

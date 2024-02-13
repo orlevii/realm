@@ -1,5 +1,6 @@
 import glob
 import json
+import logging
 import os
 import pathlib
 import sys
@@ -8,6 +9,7 @@ from typing import List
 import click
 
 from realm.entities import Config, Project, RealmContext
+from realm.log import logger
 from realm.version import __version__
 
 from .commands.build import BuildCommand
@@ -44,6 +46,12 @@ class Application:
                 is_flag=True,
                 callback=cls.print_version,
                 help="Display realm version",
+            ),
+            GlobalOption(
+                ["--verbose", "-v"],
+                show_default=True,
+                count=True,
+                help="Sets the verbosity level",
             ),
             GlobalOption(
                 ["--parallelism", "-p"],
@@ -92,6 +100,7 @@ class Application:
     @staticmethod
     @click.pass_context
     def init_context(ctx, **kwargs):
+        Application._set_verbosity(kwargs.get("verbose", 0))
         cfg = Application.read_config()
         projects = Application.get_projects(cfg)
         ctx.obj = RealmContext(config=cfg, projects=projects)
@@ -125,6 +134,17 @@ class Application:
                 projects.append(Project(source_dir=path, root_dir=cfg.root_dir))
 
         return projects
+
+    @staticmethod
+    def _set_verbosity(verbose: int):
+        if verbose == 0:
+            logger.setLevel(logging.CRITICAL)
+        elif verbose == 1:
+            logger.setLevel(logging.WARNING)
+        elif verbose == 2:
+            logger.setLevel(logging.INFO)
+        elif verbose >= 3:
+            logger.setLevel(logging.DEBUG)
 
 
 cli = Application.create()

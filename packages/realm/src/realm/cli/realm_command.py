@@ -7,6 +7,7 @@ from realm.filters.ignore import IgnoreFilter
 from realm.filters.match import MatchFilter
 from realm.filters.scope import ScopeFilter
 from realm.filters.since import SinceFilter
+from realm.log import logger
 
 from .core.base_command import BaseCommand, T
 from .realm_click_types import RealmClickCommand
@@ -17,6 +18,7 @@ class RealmCommand(BaseCommand[T], ABC):
 
     def __init__(self, ctx: RealmContext, **kwargs):
         super().__init__(ctx, **kwargs)
+        self.logger = logger
         # Just for the type annotation
         self.ctx = ctx
         self.pool = ThreadPoolExecutor(self._params.get("parallelism", 1))

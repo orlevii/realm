@@ -1,6 +1,6 @@
 import pytest
 from realm.utils.child_process import ChildProcess
-from tests.containers.pypiserver import PypiServer
+from tests.test_services.pypiserver import PypiServer
 
 
 @pytest.fixture(scope="module")

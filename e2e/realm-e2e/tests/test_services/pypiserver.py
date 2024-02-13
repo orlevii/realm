@@ -35,7 +35,7 @@ class PypiServer:
     def start(self):
         self.tempfolder.mkdir(parents=True, exist_ok=True)
         self.htpasswd.write_text("admin:admin")
-        print(f'pypi_server_cmd={self.cmd}', file=sys.stderr)
+        print(f"pypi_server_cmd={self.cmd}", file=sys.stderr)
         self.process = subprocess.Popen(self.cmd)
         self._connect()
         return self

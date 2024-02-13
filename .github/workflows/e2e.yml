@@ -28,7 +28,10 @@ jobs:
         uses: ./.github/actions/common
       - name: Install pypiserver
         #if: matrix.python-version == '3.12'
-        run: pipx install pypiserver[passlib] --python python3.8
+        run: |
+          pipx install pypiserver[passlib] --python python3.8
+          pipx runpip pypiserver show setuptools
+          pipx inject pypiserver setuptools==68.2.0
       - name: Install project dependencies
         run: |
           realm run --scope "*-e2e" -- poetry env use ${{ matrix.python-version }}

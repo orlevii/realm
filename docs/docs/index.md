@@ -4,7 +4,7 @@
 [![Build Status](https://github.com/orlevii/realm/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/orlevii/realm/actions/workflows/build.yml?query=branch%3Amain)
 
 ## Installation
-To install `realm`, it's recommened to install in an islolated environment using `pipx`
+To install `realm`, it's recommended to install in an isolated environment using `pipx`
 
 ```bash
 pipx install realm

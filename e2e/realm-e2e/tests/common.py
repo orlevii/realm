@@ -10,8 +10,8 @@ PACKAGES_REPO = "packages_repo"
 PACKAGES_REPO_PATH = fixtures_path.joinpath(PACKAGES_REPO)
 
 
-def create_run_in_fixture_fn(fixutre_relative_path: str):
-    cwd = str(fixtures_path.joinpath(fixutre_relative_path))
+def create_run_in_fixture_fn(fixture_relative_path: str):
+    cwd = str(fixtures_path.joinpath(fixture_relative_path))
     return partial(ChildProcess.run, cwd=cwd)
 
 

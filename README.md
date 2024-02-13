@@ -17,7 +17,7 @@ Poetry is a powerful tool for managing dependencies and packaging Python project
 Given its popularity and seamless virtual environment features, Poetry serves as an ideal tool for Realm to leverage in managing multiple projects within the same repository.
 
 ## Installation
-To install `realm`, it's recommened to install in an islolated environment using `pipx`
+To install `realm`, it's recommended to install in an isolated environment using `pipx`
 
 ```bash
 pipx install realm

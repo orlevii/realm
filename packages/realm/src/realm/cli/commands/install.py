@@ -29,4 +29,4 @@ class InstallCommand(RealmCommand[dict]):
                 click.echo(out)
         except Exception as e:
             click.echo(e, err=True)
-            sys.exist(1)
+            sys.exit(1)

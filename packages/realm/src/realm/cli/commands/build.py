@@ -13,7 +13,7 @@ from realm.utils import await_all
 class BuildCommand(RealmCommand[dict]):
     NAME = "build"
     HELP_MESSAGE = """
-    Runs peotry build on all projects, it will replace path-dependencies with their current version in the workspace
+    Runs poetry build on all projects, it will replace path-dependencies with their current version in the workspace
     """
 
     def run(self):
@@ -37,7 +37,7 @@ class BuildCommand(RealmCommand[dict]):
                 click.echo(out)
         except Exception as e:
             click.echo(e, err=True)
-            sys.exist(1)
+            sys.exit(1)
         finally:
             if bak_file.is_file():
                 shutil.copy2(bak_file, project.pyproject_toml_path)

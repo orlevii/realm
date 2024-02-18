@@ -1,5 +1,5 @@
 import pytest
-from tests.common import PACKAGES_REPO, create_run_in_fixture_fn, IS_WINDOWS
+from tests.common import IS_WINDOWS, PACKAGES_REPO, create_run_in_fixture_fn
 
 run = create_run_in_fixture_fn(PACKAGES_REPO)
 

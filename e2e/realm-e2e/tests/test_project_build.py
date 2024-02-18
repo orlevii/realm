@@ -15,9 +15,7 @@ def pypi_server():
 def _create_venv(clean_repo) -> Path:
     clean_repo_path = Path(clean_repo)
     venv_path = clean_repo_path.joinpath("venv")
-    ChildProcess.run(
-        f"{sys.executable} -m venv venv", cwd=clean_repo
-    )
+    ChildProcess.run(f"{sys.executable} -m venv venv", cwd=clean_repo)
     return venv_path
 
 

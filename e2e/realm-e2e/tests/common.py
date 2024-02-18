@@ -1,3 +1,4 @@
+import platform
 from contextlib import contextmanager
 from functools import partial
 from pathlib import Path
@@ -6,6 +7,7 @@ from realm.utils.child_process import ChildProcess
 
 fixtures_path = Path(__file__).parent.parent.joinpath("fixtures")
 
+IS_WINDOWS = any(platform.win32_ver())
 PACKAGES_REPO = "packages_repo"
 PACKAGES_REPO_PATH = fixtures_path.joinpath(PACKAGES_REPO)
 

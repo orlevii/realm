@@ -1,9 +1,5 @@
-import platform
-
 import pytest
-from tests.common import PACKAGES_REPO, create_run_in_fixture_fn
-
-IS_WINDOWS = any(platform.win32_ver())
+from tests.common import PACKAGES_REPO, create_run_in_fixture_fn, IS_WINDOWS
 
 run = create_run_in_fixture_fn(PACKAGES_REPO)
 

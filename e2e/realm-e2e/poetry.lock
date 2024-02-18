@@ -129,6 +129,34 @@ files = [
 ]
 
 [[package]]
+name = "passlib"
+version = "1.7.4"
+description = "comprehensive password hashing framework supporting over 30 schemes"
+optional = false
+python-versions = "*"
+files = [
+    {file = "passlib-1.7.4-py2.py3-none-any.whl", hash = "sha256:aa6bca462b8d8bda89c70b382f0c298a20b5560af6cbfa2dce410c0a2fb669f1"},
+    {file = "passlib-1.7.4.tar.gz", hash = "sha256:defd50f72b65c5402ab2c573830a6978e5f202ad0d984793c8dde2c4152ebe04"},
+]
+
+[package.extras]
+argon2 = ["argon2-cffi (>=18.2.0)"]
+bcrypt = ["bcrypt (>=3.1.0)"]
+build-docs = ["cloud-sptheme (>=1.10.1)", "sphinx (>=1.6)", "sphinxcontrib-fulltoc (>=1.2.0)"]
+totp = ["cryptography"]
+
+[[package]]
+name = "pip"
+version = "24.0"
+description = "The PyPA recommended tool for installing Python packages."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "pip-24.0-py3-none-any.whl", hash = "sha256:ba0d021a166865d2265246961bec0152ff124de910c5cc39f1156ce3fa7c69dc"},
+    {file = "pip-24.0.tar.gz", hash = "sha256:ea9bd1a847e8c5774a5777bb398c19e80bcd4e2aa16a4b301b718fe6f593aba2"},
+]
+
+[[package]]
 name = "pluggy"
 version = "1.4.0"
 description = "plugin and hook calling mechanisms for python"
@@ -142,6 +170,25 @@ files = [
 [package.extras]
 dev = ["pre-commit", "tox"]
 testing = ["pytest", "pytest-benchmark"]
+
+[[package]]
+name = "pypiserver"
+version = "2.0.1"
+description = "A minimal PyPI server for use with pip/easy_install."
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "pypiserver-2.0.1-py2.py3-none-any.whl", hash = "sha256:1dd98fb99d2da4199fb44c7284e57d69a9f7fda2c6c8dc01975c151c592677bf"},
+    {file = "pypiserver-2.0.1.zip", hash = "sha256:7b58fbd54468235f79e4de07c4f7a9ff829e7ac6869bef47ec11e0710138e162"},
+]
+
+[package.dependencies]
+passlib = {version = ">=1.6", optional = true, markers = "extra == \"passlib\""}
+pip = ">=7"
+
+[package.extras]
+cache = ["watchdog"]
+passlib = ["passlib (>=1.6)"]
 
 [[package]]
 name = "pytest"
@@ -202,7 +249,7 @@ dev = ["pre-commit", "pytest-asyncio", "tox"]
 
 [[package]]
 name = "realm"
-version = "0.3.1.dev1"
+version = "0.4.0.dev1"
 description = "A tool for managing python poetry projects"
 optional = false
 python-versions = "^3.8.1"
@@ -272,4 +319,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8.1"
-content-hash = "571e00e578f4c6c4afb6f8e2036eebcc6d9faaea4bf04cda976b7293b64eccdf"
+content-hash = "6f6cfbb4baf290e67fb4f82b38e62f218e71ed582bfc5dcad3ebfa5ee559ae9f"

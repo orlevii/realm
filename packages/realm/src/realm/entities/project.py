@@ -4,6 +4,7 @@ from pathlib import Path
 
 import toml
 
+from realm.log import logger
 from realm.utils.child_process import ChildProcess
 
 PYPROJECT_FILE = "pyproject.toml"
@@ -15,8 +16,8 @@ class Project:
         self.name = os.path.basename(source_dir)
         self.relative_path = source_dir[len(root_dir) :].lstrip(os.sep)
 
-        toml_path = str(self.source_dir.joinpath(PYPROJECT_FILE))
-        self.pyproject = toml.load(toml_path)
+        self.pyproject_toml_path = self.source_dir.joinpath(PYPROJECT_FILE)
+        self.pyproject = toml.load(self.pyproject_toml_path)
 
     @property
     def version(self) -> str:
@@ -68,6 +69,33 @@ class Project:
         except RuntimeError as e:
             msg = f"{e!s}\nproject: {os.path.basename(self.source_dir)}"
             raise RuntimeError(msg) from e
+
+    def is_dependent_on(self, other: "Project") -> bool:
+        dependency = self.dependencies.get(other.package_name)
+        return self.is_dependency(other, dependency)
+
+    def is_dependency(self, other: "Project", dependency: dict) -> bool:
+        if dependency is None:
+            return False
+        if not isinstance(dependency, dict):
+            # Path dependency is a dict
+            return False
+        dependency_path = dependency.get("path")
+        if dependency_path is None:
+            return False
+        dependency_path = dependency_path.replace("/", os.sep)
+        resolved_dep_path = (
+            self.source_dir.joinpath(dependency_path).resolve().absolute()
+        )
+        logger.debug(
+            f"Checking if {self} is dependent on {other} with path {dependency_path}"
+        )
+
+        eq = resolved_dep_path == other.source_dir.resolve().absolute()
+        logger.debug(
+            f"Resolved path: {resolved_dep_path} == {other.source_dir.resolve().absolute()}? {eq}"
+        )
+        return eq
 
     def __repr__(self):
         return self.package_name

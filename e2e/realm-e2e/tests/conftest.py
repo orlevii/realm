@@ -27,3 +27,4 @@ def clean_repo(temp_repo: str):
     ChildProcess.run("git reset --hard bak", cwd=temp_repo)
     ChildProcess.run("git checkout main", cwd=temp_repo)
     ChildProcess.run("git reset --hard bak", cwd=temp_repo)
+    ChildProcess.run("git clean -dfx", cwd=temp_repo)

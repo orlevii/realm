@@ -38,3 +38,35 @@ def test_changed_file(clean_repo, package_name: str):
         ChildProcess.run("git commit -am 'change'", cwd=clean_repo)
         output = ChildProcess.run("realm ls --since main", cwd=clean_repo).strip()
         assert output == f"{package_name}@0.1.0"
+
+
+@pytest.mark.parametrize(
+    "changes",
+    [
+        {"package_name": "dep_a", "expected": {"dep_a@0.1.0"}},
+        {"package_name": "dep_b", "expected": {"dep_a@0.1.0", "dep_b@0.2.0"}},
+        {
+            "package_name": "dep_c",
+            "expected": {"dep_a@0.1.0", "dep_b@0.2.0", "dep_c@0.3.0"},
+        },
+    ],
+)
+def test_changed_file_affected(clean_repo, changes: dict):
+    package_name = changes["package_name"]
+    expected = changes["expected"]
+    with temp_git_branch(repo_path=clean_repo, branch_name="test2"):
+        file = (
+            Path(clean_repo)
+            .joinpath("packages")
+            .joinpath(package_name)
+            .joinpath("pyproject.toml")
+        )
+        with file.open("a") as f:
+            f.write("\n")
+        ChildProcess.run("git commit -am 'change'", cwd=clean_repo)
+        output = set(
+            ChildProcess.run("realm -vvv ls --since main", cwd=clean_repo)
+            .strip()
+            .split()
+        )
+        assert output == expected

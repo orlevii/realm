@@ -25,4 +25,4 @@ class RunCommand(RealmCommand[dict]):
             await_all(futures)
         except Exception as e:
             click.echo(e, err=True)
-            sys.exist(1)
+            sys.exit(1)

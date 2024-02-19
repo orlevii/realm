@@ -14,11 +14,7 @@ class InstallCommand(RealmCommand[dict]):
     """
 
     def run(self):
-        futures = [
-            self.pool.submit(self._install, project) for project in self.ctx.projects
-        ]
-
-        await_all(futures)
+        self._run_in_pool(self._install)
 
     @staticmethod
     def _install(project: Project):

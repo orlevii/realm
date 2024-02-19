@@ -1,14 +1,15 @@
 import os
 from abc import ABC
 from concurrent.futures import ThreadPoolExecutor
+from typing import Any, Callable
 
-from realm.entities import RealmContext
+from realm.entities import RealmContext, Project
 from realm.filters.ignore import IgnoreFilter
 from realm.filters.match import MatchFilter
 from realm.filters.scope import ScopeFilter
 from realm.filters.since import SinceFilter
 from realm.log import logger
-
+from realm.utils import await_all
 from .core.base_command import BaseCommand, T
 from .realm_click_types import RealmClickCommand
 
@@ -37,3 +38,13 @@ class RealmCommand(BaseCommand[T], ABC):
         IgnoreFilter.apply(ctx=self.ctx, ignores=self._params.get("ignore"))
 
         MatchFilter.apply(ctx=self.ctx, matches=self._params.get("match"))
+
+    def _run_in_pool(self, func: Callable[[Project], Any]):
+        projects = set(self.ctx.projects)
+        for level in self.ctx.dependency_graph.topology:
+            futures = [
+                self.pool.submit(func, proj)
+                for proj in level
+                if proj in projects
+            ]
+            await_all(futures)

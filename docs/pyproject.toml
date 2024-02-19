@@ -4,7 +4,10 @@ version = "0.1.0"
 description = "Docs for realm"
 authors = ["Or Levi <orlevi128@gmail.com>"]
 license = "MIT"
-readme = "README.md"
+
+packages = [
+    { include = "docs" },
+]
 
 [tool.poetry.dependencies]
 python = "~3.10"

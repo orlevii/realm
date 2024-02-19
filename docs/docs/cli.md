@@ -56,6 +56,16 @@ You can refer to the documentation: [Poethepoet Documentation](https://poethepoe
 realm task test
 ```
 
+## build
+
+Runs poetry build on all projects, it will replace path-dependencies with their current version in the workspace. 
+
+For example, when running the following, you can build and publish all projects in the workspace:
+```bash
+realm build
+realm run -- poetry publish
+```
+
 ## Filtering
 
 When working with a large repository, you may want to focus on specific parts rather than applying commands to the entire project. Realm offers filtering options to help you do just that.

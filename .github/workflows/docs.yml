@@ -3,8 +3,9 @@ name: docs
 on: 
   push:
     branches:
-      - main
       - docs
+  release:
+    types: [ published ]
   workflow_dispatch:
 
 permissions:
@@ -39,7 +40,7 @@ jobs:
       - name: Install project dependencies
         run: poetry install
       - name: build docs
-        run: poetry run mkdocs build        
+        run: poe build
       - name: Upload to GitHub Pages
         uses: actions/upload-pages-artifact@v3
         with:

@@ -44,7 +44,7 @@ class BuildCommand(RealmCommand[dict]):
 
         shutil.copy2(project.pyproject_toml_path, bak_file)
         for dep_group, dep_name, dep_version in self._iterate_dependencies(
-                tmp_pyproject
+            tmp_pyproject
         ):
             for proj_dep in dependencies:
                 if project.is_dependency(proj_dep, dep_version):

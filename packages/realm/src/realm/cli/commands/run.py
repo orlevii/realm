@@ -1,6 +1,5 @@
 import shlex
 import sys
-from functools import cached_property
 
 import click
 
@@ -16,22 +15,23 @@ class RunCommand(RealmCommand[dict]):
     PARAMS = [click.Argument(["command"], type=click.STRING, nargs=-1)]
 
     def run(self):
-        self.logger.debug(f"Running command: {self.full_cmd}")
+        full_cmd = self.get_full_cmd()
+        self.logger.debug(f"Running command: {full_cmd}")
         try:
-            self._run_in_pool(self._run_cmd)
+            self._run_in_pool(self._run_cmd, cmd=full_cmd)
         except Exception as e:
             click.echo(e, err=True)
             sys.exit(1)
 
-    @cached_property
-    def full_cmd(self):
+    def get_full_cmd(self):
         cmd = self.params.get("command")
         full_cmd = shlex.join(cmd)
         return full_cmd
 
-    def _run_cmd(self, project: Project):
+    @staticmethod
+    def _run_cmd(project: Project, cmd: str):
         try:
-            out = project.execute_cmd(self.full_cmd)
+            out = project.execute_cmd(cmd)
             if out:
                 # used only for tests :(
                 click.echo(out)

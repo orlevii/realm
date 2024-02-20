@@ -40,7 +40,7 @@ class RealmCommand(BaseCommand[T], ABC):
 
         MatchFilter.apply(ctx=self.ctx, matches=self._params.get("match"))
 
-    def _run_in_pool(self, func: Callable[[Project, ...], Any], *args, **kwargs):
+    def _run_in_pool(self, func: Callable[[Project, Any], Any], *args, **kwargs):
         projects = set(self.ctx.projects)
         for level in self.ctx.dependency_graph.topology:
             futures = [

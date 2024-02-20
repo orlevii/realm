@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [0.4.0] - In Development
+### Changed
+* feat: parallel tasks now runs according to topology order
+
 ### Added
 * On Windows, the `--scope` and `--ignore` filters can now also use `^` instead of `*` for wildcard matching. This change accommodates how glob patterns are resolved on Windows.
 

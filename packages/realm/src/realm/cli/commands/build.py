@@ -7,7 +7,6 @@ import toml
 
 from realm.cli.realm_command import RealmCommand
 from realm.entities.project import Project
-from realm.utils import await_all
 
 
 class BuildCommand(RealmCommand[dict]):
@@ -17,14 +16,7 @@ class BuildCommand(RealmCommand[dict]):
     """
 
     def run(self):
-        projects = set(self.ctx.projects)
-        for level in self.ctx.dependency_graph.topology:
-            futures = [
-                self.pool.submit(self._build, proj)
-                for proj in level
-                if proj in projects
-            ]
-            await_all(futures)
+        self._run_in_pool(self._build)
 
     def _build(self, project: Project):
         bak_file = project.pyproject_toml_path.with_name("_bak_realm_pyproject.toml")

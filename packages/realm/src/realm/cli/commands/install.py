@@ -4,7 +4,6 @@ import click
 
 from realm.cli.realm_command import RealmCommand
 from realm.entities.project import Project
-from realm.utils import await_all
 
 
 class InstallCommand(RealmCommand[dict]):
@@ -14,11 +13,7 @@ class InstallCommand(RealmCommand[dict]):
     """
 
     def run(self):
-        futures = [
-            self.pool.submit(self._install, project) for project in self.ctx.projects
-        ]
-
-        await_all(futures)
+        self._run_in_pool(self._install)
 
     @staticmethod
     def _install(project: Project):

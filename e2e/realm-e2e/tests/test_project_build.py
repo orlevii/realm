@@ -29,7 +29,7 @@ def _create_venv(clean_repo) -> Path:
 
 def test_simple_publish(clean_repo, pypi_server):
     ChildProcess.run(
-        f'realm run --scope pkg -- poetry config repositories.pypi-local "{pypi_server}" --local',
+        f"realm run --scope pkg -- poetry config repositories.pypi-local {pypi_server} --local",
         cwd=clean_repo,
     )
     ChildProcess.run("realm build --scope pkg", cwd=clean_repo)
@@ -63,7 +63,7 @@ INSTALL_SCENARIOS = [
 
 def test_publish_with_dependencies(clean_repo, pypi_server):
     ChildProcess.run(
-        f'realm run --scope dep_* -- poetry config repositories.pypi-local "{pypi_server}" --local',
+        f"realm run --scope dep_* -- poetry config repositories.pypi-local {pypi_server} --local",
         cwd=clean_repo,
     )
     ChildProcess.run("realm build --scope dep_*", cwd=clean_repo)

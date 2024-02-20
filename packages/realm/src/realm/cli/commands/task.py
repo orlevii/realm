@@ -3,7 +3,6 @@ import sys
 import click
 
 from realm.cli.realm_command import RealmCommand
-from realm.utils import await_all
 
 
 class TaskCommand(RealmCommand[dict]):
@@ -21,12 +20,10 @@ class TaskCommand(RealmCommand[dict]):
     def run(self):
         task_name = self.params["task_name"]
         failed_projects = []
-        futures = []
-        for project in self.ctx.projects:
-            f = self.pool.submit(self.execute_task, project, task_name, failed_projects)
-            futures.append(f)
 
-        await_all(futures)
+        self._run_in_pool(
+            self.execute_task, task_name=task_name, failed_projects=failed_projects
+        )
 
         if any(failed_projects):
             names = [p.name for p in failed_projects]

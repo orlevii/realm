@@ -62,9 +62,7 @@ Let's say that `pkg_a` depends on `pkg_c`:
 ```toml
 [tool.poetry]
 name = "pkg_a"
-.
-.
-.
+# ...
 
 [tool.poetry.dependencies]
 pkg_c = { path = "../pkg_c", develop = true }
@@ -82,8 +80,8 @@ realm ls --scope "*_a"
 This command displays projects that end with `_a`.
 In our case, it will only display `pkg_a`.
 
-???+ note "Windows"
-    In Windows, you can also use `^` instead of `*` due to how wildcards are handled:
+???+ note "On Windows"
+    On Windows, you can also use `^` instead of `*` due to how wildcards are handled:
     
     ```powershell
     realm ls --scope "^_a"
@@ -144,9 +142,8 @@ The `pkg_a`'s `pyproject.toml` file that will be used for building will be:
 ```toml
 [tool.poetry]
 name = "pkg_a"
-.
-.
-.
+# ...
+
 [tool.poetry.dependencies]
 pkg_c = "^1.1.0" # Instead of { path = "../pkg_c", develop = true }
 ```

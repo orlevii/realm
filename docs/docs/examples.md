@@ -13,7 +13,6 @@ Let's look at the following repository structure:
 │   │   ├── src
 │   │   │   └── pkg_a
 │   │   └── tests
-│   │       └── __init__.py
 │   ├── pkg_b
 │   │   ├── README.md
 │   │   ├── poetry.lock

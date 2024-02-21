@@ -145,7 +145,8 @@ name = "pkg_a"
 # ...
 
 [tool.poetry.dependencies]
-pkg_c = "^1.1.0" # Instead of { path = "../pkg_c", develop = true }
+# Instead of { path = "../pkg_c", develop = true }
+pkg_c = "^1.1.0"
 ```
 
 ### Publishing

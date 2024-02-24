@@ -1,6 +1,6 @@
 ## Realm
 
-`realm` is a Python open-source tool inspired by `lerna` and `nx`. It is designed to manage multiple Python packages/projects within the same Git repository. The primary focus is on running tasks across all projects in the repository and performing tasks on projects affected by specific changes.
+**realm** is a CLI tool written in Python aimed at simplifying the development and maintenance of multiple Python projects within the same repository with a particular focus on projects structured using Poetry.
 
 [![Build Status](https://github.com/orlevii/realm/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/orlevii/realm/actions/workflows/build.yml?query=branch%3Amain)
 
@@ -32,4 +32,8 @@ $ realm install --since origin/master
 * <code>--ignore</code> - Excludes projects that match the given pattern.
 * <code>--match</code> - Filters projects by a field specified in the pyproject.toml file.
 
-Feel free to contribute, report issues, or suggest improvements. Happy coding with `realm`!
+## Documentation
+For more information on available commands and usage, refer to the [documentation](https://orlevii.github.io/realm/).
+
+## Contribution
+Contributions to `realm` are welcome! If you encounter any issues or have suggestions for improvements, please open an issue.

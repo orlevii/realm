@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "realm"
-version = "0.4.0"
+version = "0.5.0.dev"
 description = "A tool for managing python poetry projects"
 authors = ["Or Levi <orlevi128@gmail.com>"]
 license = "MIT"
@@ -9,7 +9,7 @@ keywords = ["monorepo", "realm", "poetry"]
 
 homepage = "https://github.com/orlevii/realm"
 repository = "https://github.com/orlevii/realm"
-documentation = "https://github.com/orlevii/realm"
+documentation = "https://orlevii.github.io/realm/"
 
 classifiers = [
     "Development Status :: 5 - Production/Stable",

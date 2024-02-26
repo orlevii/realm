@@ -1,7 +1,6 @@
+import click
 import shlex
 import sys
-
-import click
 
 from realm.cli.realm_command import RealmCommand
 from realm.entities import Project
@@ -25,13 +24,13 @@ class RunCommand(RealmCommand[dict]):
 
     def get_full_cmd(self):
         cmd = self.params.get("command")
-        full_cmd = shlex.join(cmd)
+        full_cmd = " ".join(cmd)
         return full_cmd
 
-    @staticmethod
-    def _run_cmd(project: Project, cmd: str):
+    def _run_cmd(self, project: Project, cmd: str):
         try:
-            out = project.execute_cmd(cmd)
+            self.logger.debug(f"project: {project.name}; command: {cmd}")
+            out = project.execute_cmd(cmd, shell=True)
             if out:
                 # used only for tests :(
                 click.echo(out)

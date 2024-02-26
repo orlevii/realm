@@ -1,6 +1,6 @@
-import click
-import shlex
 import sys
+
+import click
 
 from realm.cli.realm_command import RealmCommand
 from realm.entities import Project

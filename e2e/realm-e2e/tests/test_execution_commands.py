@@ -33,7 +33,7 @@ def test_run_command_2(clean_repo):
 
 def test_run_command_3(clean_repo):
     out = ChildProcess.run(
-        "realm run --scope pkg -- python script.py 'arg with space'", cwd=clean_repo
+        'realm run --scope pkg -- python script.py "arg with space"', cwd=clean_repo
     ).strip()
     parsed_out = json.loads(out)
     assert parsed_out == ["script.py", "arg with space"]

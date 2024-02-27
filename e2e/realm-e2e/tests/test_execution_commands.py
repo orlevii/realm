@@ -1,3 +1,5 @@
+import json
+
 from realm.utils.child_process import ChildProcess
 
 
@@ -21,3 +23,17 @@ def test_run_command(clean_repo):
     num_projects = len(ChildProcess.run("realm ls", cwd=clean_repo).strip().split())
     output = ChildProcess.run("realm run echo hello", cwd=clean_repo).strip().split()
     assert output == ["hello"] * num_projects
+
+
+def test_run_command_2(clean_repo):
+    ChildProcess.run(
+        "realm -vvv run -- echo hello > file", cwd=clean_repo
+    ).strip().split()
+
+
+def test_run_command_3(clean_repo):
+    out = ChildProcess.run(
+        'realm run --scope pkg -- python script.py "arg with space"', cwd=clean_repo
+    ).strip()
+    parsed_out = json.loads(out)
+    assert parsed_out == ["script.py", "arg with space"]

@@ -10,6 +10,8 @@ packages = [{ include = "dep_b", from = "src" }]
 python = "^3.8"
 dep-c = { path = "../dep_c", develop = true }
 
+[tool.realm.dependency-spec]
+dep-c = { method = "next_major" }
 
 [build-system]
 requires = ["poetry-core"]

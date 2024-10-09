@@ -11,7 +11,7 @@ runs:
     - name: Install global dependencies
       shell: bash
       run: |
-        pipx install poetry==1.7.1
+        pipx install poetry==1.8.1
         pipx install poethepoet
-        pipx install realm==0.3.0
+        pipx install realm==0.4.1
         poetry config --list

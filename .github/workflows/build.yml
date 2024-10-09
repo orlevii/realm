@@ -21,8 +21,8 @@ jobs:
           pipx ensurepath
       - name: Install global dependencies
         run: |
-          pipx install poetry==1.7.1 --python python
-          pipx install realm==0.3.0 --python python
+          pipx install poetry==1.8.1 --python python
+          pipx install realm==0.4.1 --python python
           pipx install ruff --python python
       - name: Lint
         run: |
@@ -30,7 +30,7 @@ jobs:
           echo $MERGE_SHA
           realm ls --since $MERGE_SHA
           echo -----------------
-          realm run --since $MERGE_SHA -- ruff .
+          realm run --since $MERGE_SHA -- ruff check .
 
   test:
     runs-on: ${{ matrix.os }}

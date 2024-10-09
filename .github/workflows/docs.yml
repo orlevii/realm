@@ -34,7 +34,7 @@ jobs:
       - name: Install global dependencies
         run: |
           pip install pipx
-          pipx install poetry==1.7.1 poethepoet
+          pipx install poetry==1.8.1 poethepoet
       - name: Install project dependencies
         run: poetry install
       - name: build docs

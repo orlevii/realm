@@ -50,12 +50,12 @@ INSTALL_SCENARIOS = [
     {
         "install": "dep-a",
         "expected": {"dep-a==0.1.0", "dep-b==0.2.0", "dep-c==0.3.0"},
-        "expected_requries": ""
+        "expected_requries": "dep-b (>=0.2.0,<0.3.0)"
     },
     {
         "install": "dep-b",
         "expected": {"dep-b==0.2.0", "dep-c==0.3.0"},
-        "expected_requries": ""
+        "expected_requries": "dep-c (>=0.3.0,<1)"
     },
     {
         "install": "dep-c",
@@ -91,14 +91,15 @@ def test_publish_with_dependencies(clean_repo, pypi_server):
         res = ChildProcess.run(f"{pip} freeze", cwd=clean_repo).split()
         assert set(res) == expected, f"Install: {install}; Got: {res}"
 
-        requires = ChildProcess.run(
-            [
-                python_path,
-                "-c",
-                f"import importlib.metadata; print(importlib.metadata.requires('{install}'))",
-            ],
-            shell=False,
-        )
-        assert requires == expected_requires
+        if expected_requires:
+            requires = ChildProcess.run(
+                [
+                    python_path,
+                    "-c",
+                    f"import importlib.metadata; print(';'.join(importlib.metadata.requires('{install}')))",
+                ],
+                shell=False,
+            ).strip()
+            assert requires == expected_requires
 
         shutil.rmtree(venv_path, ignore_errors=True)

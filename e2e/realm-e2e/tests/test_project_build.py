@@ -45,20 +45,25 @@ def test_simple_publish(clean_repo, pypi_server):
     assert "pkg==0.1.0" in res
 
 
+# fmt: off
 INSTALL_SCENARIOS = [
     {
         "install": "dep-a",
         "expected": {"dep-a==0.1.0", "dep-b==0.2.0", "dep-c==0.3.0"},
+        "expected_requries": ""
     },
     {
         "install": "dep-b",
         "expected": {"dep-b==0.2.0", "dep-c==0.3.0"},
+        "expected_requries": ""
     },
     {
         "install": "dep-c",
         "expected": {"dep-c==0.3.0"},
+        "expected_requries": ""
     },
 ]
+# fmt: on
 
 
 def test_publish_with_dependencies(clean_repo, pypi_server):
@@ -76,6 +81,8 @@ def test_publish_with_dependencies(clean_repo, pypi_server):
     for p in INSTALL_SCENARIOS:
         install = p["install"]
         expected = p["expected"]
+        expected_requires = p["expected_requries"]
+
         python_path = _create_venv(clean_repo)
         pip = f"{python_path} -m pip"
         ChildProcess.run(
@@ -83,5 +90,15 @@ def test_publish_with_dependencies(clean_repo, pypi_server):
         )
         res = ChildProcess.run(f"{pip} freeze", cwd=clean_repo).split()
         assert set(res) == expected, f"Install: {install}; Got: {res}"
+
+        requires = ChildProcess.run(
+            [
+                python_path,
+                "-c",
+                f"import importlib.metadata; print(importlib.metadata.requires('{install}'))",
+            ],
+            shell=False,
+        )
+        assert requires == expected_requires
 
         shutil.rmtree(venv_path, ignore_errors=True)

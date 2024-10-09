@@ -48,7 +48,25 @@ class BuildCommand(RealmCommand[dict]):
         ):
             for proj_dep in dependencies:
                 if project.is_dependency(proj_dep, dep_version):
-                    dep_group[dep_name] = f"^{proj_dep.version}"
+                    dep_spec = (
+                        project.extract_field(f"tool.realm.dependency-spec.{dep_name}")
+                        or {}
+                    )
+                    assert isinstance(
+                        dep_spec, dict
+                    ), f"Specifiction of dependency {dep_name} must be a dict, found: {type(dep_spec)}"
+                    method = dep_spec.get("method", "caret")
+                    if method == "caret":
+                        dep_group[dep_name] = f"^{proj_dep.version}"
+                    elif method == "tilde":
+                        dep_group[dep_name] = f"~{proj_dep.version}"
+                    elif method == "next_major":
+                        next_major = int(proj_dep.version.partition(".")[0]) + 1
+                        dep_group[dep_name] = f">={proj_dep.version},<{next_major}"
+                    else:
+                        raise RuntimeError(
+                            f'method "{method}" is not supported as dependency specification'
+                        )
                     break
 
         with project.pyproject_toml_path.open("w") as f:

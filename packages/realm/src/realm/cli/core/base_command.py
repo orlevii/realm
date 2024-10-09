@@ -17,7 +17,7 @@ def _strip_indent(s):
     if not indent:
         return s
 
-    return re.sub(re.compile(r"^[ \t]{%s}" % indent, re.MULTILINE), "", s)
+    return re.sub(re.compile(r"^[ \t]{%s}" % indent, re.MULTILINE), "", s)  # noqa: UP031
 
 
 class BaseCommand(Generic[T]):

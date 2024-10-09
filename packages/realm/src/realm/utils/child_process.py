@@ -14,8 +14,9 @@ class ChildProcess:
         if cls.FORCE_CAPTURE:
             params.update(cls.CAPTURE_PARAMS)
 
-        if not kwargs.get("shell"):
-            command = shlex.split(command, posix=False)
+        if isinstance(command, str):
+            if not kwargs.get("shell"):
+                command = shlex.split(command, posix=False)
         p = subprocess.Popen(command, **params)
         out, err = p.communicate()
         if isinstance(out, bytes):

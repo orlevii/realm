@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import shlex
 import subprocess
 
@@ -7,16 +9,15 @@ class ChildProcess:
     CAPTURE_PARAMS = {"stdout": subprocess.PIPE}
 
     @classmethod
-    def run(cls, command, **kwargs) -> str:
+    def run(cls, command: str | list[str], **kwargs) -> str:
         params = dict(cls.CAPTURE_PARAMS)
         params.update(kwargs)
 
         if cls.FORCE_CAPTURE:
             params.update(cls.CAPTURE_PARAMS)
 
-        if isinstance(command, str):
-            if not kwargs.get("shell"):
-                command = shlex.split(command, posix=False)
+        if isinstance(command, str) and not kwargs.get("shell"):
+            command = shlex.split(command, posix=False)
         p = subprocess.Popen(command, **params)
         out, err = p.communicate()
         if isinstance(out, bytes):

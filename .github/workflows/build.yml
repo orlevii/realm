@@ -30,7 +30,7 @@ jobs:
           echo $MERGE_SHA
           realm ls --since $MERGE_SHA
           echo -----------------
-          realm run --since $MERGE_SHA -- ruff .
+          realm run --since $MERGE_SHA -- ruff check .
 
   test:
     runs-on: ${{ matrix.os }}
